@@ -63,4 +63,17 @@ public class GameScreen implements Screen {
     public void dispose() {
 
     }
+
+    public Stage getStage() {
+        return stage;
+    }
+
+    public Necromancer getNecromancer() {
+        return necromancer;
+    }
+
+    public ScrollHandler getScrollHandler() {
+        return scrollHandler;
+    }
+
 }
