@@ -37,7 +37,7 @@ public class AssetManager {
         // Carreguem els 8 estats del character parat
         characterStay = new TextureRegion[8];
         for (int i = 0; i < characterStay.length; i++) {
-            characterStay[i] = new TextureRegion(characterSheet, i * 128, 0, 128, 128);
+            characterStay[i] = new TextureRegion(characterSheet, i * 160, 0, 160, 160);
 
         }
         characterAnimationStay = new Animation<>(0.05f,characterStay);
