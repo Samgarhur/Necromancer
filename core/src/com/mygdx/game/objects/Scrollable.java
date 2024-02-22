@@ -22,7 +22,7 @@ public class Scrollable extends Actor {
 
     public void act(float delta) {
 
-    // Desplacem l'objecte en l'eix d'X
+        // Desplacem l'objecte en l'eix d'X
         position.x += velocity * delta;
 
     // Si es troba fora de la pantalla canviem la variable a true

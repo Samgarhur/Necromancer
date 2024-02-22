@@ -1,7 +1,11 @@
 package com.mygdx.game.objects;
 
+import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.mygdx.game.helpers.AssetManager;
 import com.mygdx.game.utils.Settings;
 
 public class Character extends Actor {
@@ -14,6 +18,9 @@ public class Character extends Actor {
     private Vector2 position;
     private int width, height;
     private int direction;
+    private Animation<TextureRegion> stayAnimation,rightAnimation,atackAnimation;
+
+    private float stateTime;
 
     public Character() {
 
@@ -26,11 +33,28 @@ public class Character extends Actor {
         this.height = height;
         position = new Vector2(x, y);
         direction = CHARACTER_STRAIGHT;
+
+        stayAnimation= AssetManager.characterAnimationStay;
+
+    }
+
+    @Override
+    public void draw(Batch batch, float parentAlpha) {
+        super.draw(batch, parentAlpha);
+
+
+        TextureRegion currentFrame;
+
+        currentFrame=stayAnimation.getKeyFrame(stateTime,true);
+        batch.draw(currentFrame, position.x, position.y, width, height);
     }
 
     public void act(float delta) {
 
-// Movem l'Spacecraft depenent de la direcció controlant que no surti de la pantalla
+        super.act(delta);
+        stateTime +=delta;
+
+        // Movem l'Spacecraft depenent de la direcció controlant que no surti de la pantalla
         switch (direction) {
             case CHARACTER_UP:
                 if (this.position.y - Settings.CHARACTER_VELOCITY  * delta >= 0) {

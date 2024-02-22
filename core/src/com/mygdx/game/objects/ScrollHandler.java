@@ -10,12 +10,6 @@ public class ScrollHandler extends Group {
     // Fons de pantalla
     Background bg, bg_back;
 
-    /*// Asteroides
-    int numAsteroids;
-    ArrayList<Asteroid> asteroids;*/
-
-    // Objecte random
-    Random r;
 
     public ScrollHandler() {
         //Creem els dos fons
