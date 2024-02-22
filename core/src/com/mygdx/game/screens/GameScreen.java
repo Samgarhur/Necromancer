@@ -2,12 +2,15 @@ package com.mygdx.game.screens;
 
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.mygdx.game.objects.Character;
+import com.mygdx.game.objects.ScrollHandler;
+import com.mygdx.game.utils.Settings;
 
 
 public class GameScreen implements Screen {
 
     private Stage stage;
-    private Necromancer necromancer;
+    private Character character;
     private ScrollHandler scrollHandler;
 
     public GameScreen() {
@@ -15,12 +18,12 @@ public class GameScreen implements Screen {
         stage = new Stage();
 
         // Creem la nau i la resta d'objectes
-        necromancer = new Necromancer();
+        character = new Character(Settings.CHARACTER_STARTX, Settings.CHARACTER_STARTY, Settings.CHARACTER_WIDTH, Settings.CHARACTER_HEIGHT);
         scrollHandler = new ScrollHandler();
 
         // Afegim els actors a l'stage
         stage.addActor(scrollHandler);
-        stage.addActor(necromancer);
+        stage.addActor(character);
 
     }
 
@@ -64,13 +67,14 @@ public class GameScreen implements Screen {
 
     }
 
+    public Character getCharacter() {
+        return character;
+    }
+
     public Stage getStage() {
         return stage;
     }
 
-    public Necromancer getNecromancer() {
-        return necromancer;
-    }
 
     public ScrollHandler getScrollHandler() {
         return scrollHandler;
