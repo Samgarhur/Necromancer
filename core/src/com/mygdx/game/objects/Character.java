@@ -46,7 +46,7 @@ public class Character extends Actor {
         TextureRegion currentFrame;
 
         currentFrame=stayAnimation.getKeyFrame(stateTime,true);
-        batch.draw(currentFrame, position.x, position.y, width, height);
+        batch.draw(currentFrame, getX(), getY(), getWidth(), getHeight());
     }
 
     public void act(float delta) {
