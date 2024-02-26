@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
+import com.mygdx.game.helpers.InputHandler;
 import com.mygdx.game.objects.Character;
 import com.mygdx.game.objects.ScrollHandler;
 import com.mygdx.game.utils.Settings;
@@ -53,6 +54,31 @@ public class GameScreen implements Screen {
         stage.addActor(scrollHandler);
         stage.addActor(character);
 
+        // Assignem com a gestor d'entrada la classe InputHandler
+        Gdx.input.setInputProcessor(new InputHandler(this));
+
+    }
+
+    private void drawElements() {
+
+        // Recollim les propietats del batch de l'stage
+        shapeRenderer.setProjectionMatrix(batch.getProjectionMatrix());
+
+        // Pintem el fons de negre per evitar el "flickering"
+        //Gdx.gl20.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+        // Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+        // Inicialitzem el shaperenderer
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+
+        // Definim el color (verd)
+        shapeRenderer.setColor(new Color(0, 1, 0, 1));
+
+        // Pintem el character
+        shapeRenderer.rect(character.getX(), character.getY(), character.getWidth(), character.getHeight());
+
+
+        shapeRenderer.end();
     }
 
 
@@ -67,6 +93,7 @@ public class GameScreen implements Screen {
         // Dibuixem i actualitzem tots els actors de l'stage
         stage.draw();
         stage.act(delta);
+        drawElements();
 
 
     }
@@ -95,6 +122,11 @@ public class GameScreen implements Screen {
 
     }
 
+    public Stage getStage() {
+        return stage;
+    }
 
-
+    public Character getCharacter() {
+        return character;
+    }
 }

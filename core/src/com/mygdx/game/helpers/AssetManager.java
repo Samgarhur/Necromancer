@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.mygdx.game.objects.Background;
+import com.mygdx.game.utils.Settings;
 
 public class AssetManager {
     // Sprite Sheet
@@ -37,7 +38,7 @@ public class AssetManager {
         // Carreguem els 8 estats del character parat
         characterStay = new TextureRegion[8];
         for (int i = 0; i < characterStay.length; i++) {
-            characterStay[i] = new TextureRegion(characterSheet, i * 160, 0, 160, 160);
+            characterStay[i] = new TextureRegion(characterSheet, (i * 160)+60, 60, 50, 60);
             characterStay[i].flip(false,true);
 
         }
@@ -46,7 +47,7 @@ public class AssetManager {
         // Carreguem els 8 estats del character cuan es mou de dreta o esquerra
         characterRight = new TextureRegion[8];
         for (int i = 0; i < characterRight.length; i++) {
-            characterRight[i] = new TextureRegion(characterSheet, i * 128, 160, 160, 160);
+            characterRight[i] = new TextureRegion(characterSheet, (i * 160)+60, 60, 50, 60);
             characterRight[i].flip(false,true);
         }
         characterAnimationRight= new Animation<>(0.05f,characterRight);
@@ -54,14 +55,11 @@ public class AssetManager {
         // Carreguem els 13 estats del character cuan ataca
         characterAtack = new TextureRegion[13];
         for (int i = 0; i < characterAtack.length; i++) {
-            characterAtack[i] = new TextureRegion(characterSheet, i * 128, 384, 128, 128);
+            characterAtack[i] = new TextureRegion(characterSheet, (i * 160)+60, 60, 50, 60);
             characterAtack[i].flip(false,true);
 
         }
         characterAnimationAtack= new Animation<>(0.05f,characterAtack);
-
-
-
     }
 
     public static void dispose() {

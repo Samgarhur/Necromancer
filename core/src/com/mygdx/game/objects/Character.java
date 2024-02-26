@@ -3,6 +3,7 @@ package com.mygdx.game.objects;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.mygdx.game.helpers.AssetManager;
@@ -13,6 +14,9 @@ public class Character extends Actor {
     public static final int CHARACTER_STRAIGHT = 0;
     public static final int CHARACTER_UP = 1;
     public static final int CHARACTER_DOWN = 2;
+    public static final int CHARACTER_RIGHT = 3;
+    public static final int CHARACTER_LEFT = 4;
+    TextureRegion currentFrame;
 
     // Paràmetres del character
     private Vector2 position;
@@ -21,6 +25,7 @@ public class Character extends Actor {
     private Animation<TextureRegion> stayAnimation,rightAnimation,atackAnimation;
 
     private float stateTime;
+    private Rectangle collisionRect;
 
     public Character() {
 
@@ -43,7 +48,7 @@ public class Character extends Actor {
         super.draw(batch, parentAlpha);
 
 
-        TextureRegion currentFrame;
+
 
         currentFrame=stayAnimation.getKeyFrame(stateTime,true);
         batch.draw(currentFrame, getX(), getY(), getWidth(), getHeight());
@@ -66,10 +71,22 @@ public class Character extends Actor {
                     this.position.y += Settings.CHARACTER_VELOCITY  * delta;
                 }
                 break;
+            case CHARACTER_RIGHT:
+                if (this.position.x + width + Settings.CHARACTER_VELOCITY * delta <= Settings.GAME_WIDTH) {
+                    this.position.x += Settings.CHARACTER_VELOCITY  * delta;
+
+                }
+                break;
+            case CHARACTER_LEFT:
+                if (this.position.x + Settings.CHARACTER_VELOCITY * delta >= 0) {
+                    this.position.x -= Settings.CHARACTER_VELOCITY  * delta;
+                }
+                break;
             case CHARACTER_STRAIGHT:
                 break;
         }
     }
+
 
     public float getX() {
         return position.x;
@@ -96,10 +113,21 @@ public class Character extends Actor {
     public void goDown() {
         direction = CHARACTER_DOWN;
     }
+    // Canviem la direcció del Character: Dreta
+    public void goRight() {
+        direction = CHARACTER_RIGHT;
+    }
+    // Canviem la direcció del Character: Esquerra
+    public void goLeft() {
+        direction = CHARACTER_LEFT;
+    }
 
     // Posem el Character al seu estat original
     public void goStraight() {
         direction = CHARACTER_STRAIGHT;
+    }
+    public Rectangle getCollisionRect() {
+        return collisionRect;
     }
 
 
