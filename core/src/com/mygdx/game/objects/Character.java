@@ -48,8 +48,6 @@ public class Character extends Actor {
         super.draw(batch, parentAlpha);
 
 
-
-
         currentFrame=stayAnimation.getKeyFrame(stateTime,true);
         batch.draw(currentFrame, getX(), getY(), getWidth(), getHeight());
     }

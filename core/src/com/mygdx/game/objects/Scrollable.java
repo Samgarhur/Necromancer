@@ -25,7 +25,7 @@ public class Scrollable extends Actor {
         // Desplacem l'objecte en l'eix d'X
         position.x += velocity * delta;
 
-    // Si es troba fora de la pantalla canviem la variable a true
+        // Si es troba fora de la pantalla canviem la variable a true
         if (position.x + width < 0) {
             leftOfScreen = true;
         }

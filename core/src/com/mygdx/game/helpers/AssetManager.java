@@ -12,6 +12,7 @@ public class AssetManager {
     public static Texture characterSheet;
 
     // Fons
+    public static TextureRegion backgroundMain;
     public static TextureRegion background;
 
     // Movimiento derecha,quieto y ataque de necromancer
@@ -27,6 +28,8 @@ public class AssetManager {
 
 
     public static void load() {
+        //Carreguem fons del menu principal y del joc
+        backgroundMain=new TextureRegion(new Texture(Gdx.files.internal("Background/fondoNegro.jpg")));
         background=new TextureRegion(new Texture(Gdx.files.internal("Background/espacio.png")));
         background.flip(false,true);
 
