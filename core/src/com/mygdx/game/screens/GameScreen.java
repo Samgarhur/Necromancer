@@ -87,11 +87,21 @@ public class GameScreen implements Screen {
     private void drawLife() {
         liveIcon= AssetManager.liveIcon;
 
+        // Itera sobre los estados de los íconos de vida
+        for (int i = 0; i < AssetManager.lifeStates.length; i++) {
+            // Obtén el ícono correspondiente según el estado actual
+            TextureRegion lifeIcon = AssetManager.lifeIcons[AssetManager.lifeStates[i]];
 
-        // Dibujar el icono de vida en la esquina superior izquierda
-        batch.begin();
-        batch.draw(liveIcon, Settings.ICON_STARTX, Settings.ICON_STARTY, Settings.ICON_WIDTH, Settings.ICON_HEIGHT);
-        batch.end();
+            // Calcula la posición en la pantalla para cada ícono de vida
+            float iconX = Settings.ICON_STARTX + i * (Settings.ICON_WIDTH + Settings.ICON_PADDING_X);
+            float iconY = Settings.ICON_STARTY;
+
+            // Dibuja el ícono de vida en la posición calculada
+            batch.begin();
+            batch.draw(lifeIcon, iconX, iconY, Settings.ICON_WIDTH, Settings.ICON_HEIGHT);
+            batch.end();
+        }
+        //batch.draw(liveIcon, Settings.ICON_STARTX, Settings.ICON_STARTY, Settings.ICON_WIDTH, Settings.ICON_HEIGHT);
 
 
 

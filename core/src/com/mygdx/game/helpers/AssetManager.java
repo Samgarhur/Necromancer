@@ -13,6 +13,10 @@ public class AssetManager {
     // Sprite Sheet
     public static Texture characterSheet;
 
+    // Iconos de vida
+    public static TextureRegion[] lifeIcons;
+    public static int[] lifeStates;
+
     // Fons
     public static TextureRegion backgroundMain;
     public static TextureRegion background;
@@ -37,8 +41,19 @@ public class AssetManager {
         background=new TextureRegion(new Texture(Gdx.files.internal("Background/espacio.png")));
         background.flip(false,true);
 
-        liveIcon=new TextureRegion(new Texture(Gdx.files.internal("Icons/vida.png")));
-        liveIcon.flip(false,true);
+        /*liveIcon=new TextureRegion(new Texture(Gdx.files.internal("Icons/vida.png")));
+        liveIcon.flip(false,true);*/
+
+        // Carga del icono de vida
+        TextureRegion liveIcon = new TextureRegion(new Texture(Gdx.files.internal("Icons/vida.png")));
+        liveIcon.flip(false, true);
+
+        TextureRegion emptyLiveIcon = new TextureRegion(new Texture(Gdx.files.internal("Icons/vida_vacio.png")));
+        emptyLiveIcon.flip(false, true);
+
+        // Inicialización de los iconos de vida y sus estados
+        lifeIcons = new TextureRegion[]{emptyLiveIcon, liveIcon};
+        lifeStates = new int[]{1, 1, 1}; // Representa tres iconos de vida llenos al principio
 
 
 
