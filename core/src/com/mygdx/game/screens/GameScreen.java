@@ -13,8 +13,11 @@ import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.mygdx.game.helpers.AssetManager;
 import com.mygdx.game.helpers.InputHandler;
 import com.mygdx.game.objects.Character;
+import com.mygdx.game.objects.Enemy;
 import com.mygdx.game.objects.ScrollHandler;
 import com.mygdx.game.utils.Settings;
+
+import java.util.ArrayList;
 
 
 public class GameScreen implements Screen {
@@ -79,6 +82,30 @@ public class GameScreen implements Screen {
 
         // Pintem el character
         shapeRenderer.rect(character.getX(), character.getY(), character.getWidth(), character.getHeight());
+
+        // Recollim tots els  enemics
+        ArrayList<Enemy> enemys = scrollHandler.getEnemys();
+        Enemy enemy;
+
+        for (int i = 0; i < enemys.size(); i++) {
+
+            enemy = enemys.get(i);
+            switch (i) {
+                case 0:
+                    shapeRenderer.setColor(1,0,0,1);
+                    break;
+                case 1:
+                    shapeRenderer.setColor(0,0,1,1);
+                    break;
+                case 2:
+                    shapeRenderer.setColor(1,1,0,1);
+                    break;
+                default:
+                    shapeRenderer.setColor(1,1,1,1);
+                    break;
+            }
+            shapeRenderer.circle(enemy.getX() + enemy.getWidth()/2, enemy.getY() + enemy.getWidth()/2, enemy.getWidth()/2);
+        }
 
 
         shapeRenderer.end();

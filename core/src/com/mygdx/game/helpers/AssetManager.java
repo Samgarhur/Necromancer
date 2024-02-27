@@ -45,10 +45,13 @@ public class AssetManager {
         liveIcon.flip(false,true);*/
 
         // Carga del icono de vida
-        TextureRegion liveIcon = new TextureRegion(new Texture(Gdx.files.internal("Icons/vida.png")));
+        Texture liveIconTexture = new Texture(Gdx.files.internal("Icons/calavera.png"));
+        liveIconTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+
+        TextureRegion liveIcon = new TextureRegion(liveIconTexture);
         liveIcon.flip(false, true);
 
-        TextureRegion emptyLiveIcon = new TextureRegion(new Texture(Gdx.files.internal("Icons/vida_vacio.png")));
+        TextureRegion emptyLiveIcon = new TextureRegion(new Texture(Gdx.files.internal("Icons/calavera_vacia.png")));
         emptyLiveIcon.flip(false, true);
 
         // Inicialización de los iconos de vida y sus estados
