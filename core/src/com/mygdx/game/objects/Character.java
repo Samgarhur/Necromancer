@@ -46,8 +46,6 @@ public class Character extends Actor {
     @Override
     public void draw(Batch batch, float parentAlpha) {
         super.draw(batch, parentAlpha);
-
-
         currentFrame=stayAnimation.getKeyFrame(stateTime,true);
         batch.draw(currentFrame, getX(), getY(), getWidth(), getHeight());
     }

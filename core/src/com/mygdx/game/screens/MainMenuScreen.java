@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -33,6 +34,8 @@ public class MainMenuScreen implements Screen {
     private Batch batch;
     private Skin skin;
     TextureRegion backgroundRegion;
+    Table options;
+    Table window;
 
     public MainMenuScreen(Juego game) {
         this.game=game;
@@ -62,24 +65,78 @@ public class MainMenuScreen implements Screen {
         stage.addActor(background);
         Gdx.input.setInputProcessor(stage);
 
-        //Creamos una ventana para tener ahi puesto los botones para iniciar
-        Window window = new Window("Título de la ventana", skin);
-        window.setSize(200, 200);
-        window.setPosition(Settings.GAME_WIDTH / 2 - window.getWidth() / 2, Settings.GAME_HEIGHT / 2 - window.getHeight() / 2);
-        stage.addActor(window);
 
+        //Creamos una tabla(ventana) para tener ahi puesto los botones para iniciar
+        window = new Table(skin);
+        window.setBackground("window-c");
+        window.setSize(400, 400);
+        window.setPosition(Settings.GAME_WIDTH / 2 - window.getWidth() / 2, Settings.GAME_HEIGHT / 2 - window.getHeight() / 2);
 
         TextButton playButton = new TextButton("Jugar",skin);
-        playButton.setSize(70,40);
-        playButton.setPosition(Settings.GAME_WIDTH / 2 - playButton.getWidth() / 2, Settings.GAME_HEIGHT / 2 - playButton.getHeight() / 2);
-        playButton.getLabel().setFontScale(0.7f);
+        playButton.setSize(200,100);
+        playButton.setDebug(true);
+        playButton.getLabel().setFontScale(3f);
         playButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 game.setScreen(new GameScreen());
             }
         });
-        stage.addActor(playButton);
+
+
+        TextButton optionsButton = new TextButton("Opcions",skin);
+        optionsButton.setSize(200,100);
+        optionsButton.setDebug(true);
+        optionsButton.getLabel().setFontScale(3f);
+        optionsButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                window.setVisible(false);
+                options.setVisible(true);
+
+            }
+        });
+
+        TextButton exitButton = new TextButton("Sortir",skin);
+        exitButton.setSize(200,100);
+        exitButton.setDebug(true);
+        exitButton.getLabel().setFontScale(3f);
+        exitButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                Gdx.app.exit();
+            }
+        });
+
+
+        // Agregar botones a la tabla
+        window.add(playButton).padBottom(20).row(); // Agrega el botón de jugar con un espacio inferior de 20 y pasa a la siguiente fila
+        window.add(optionsButton).padBottom(20).row();
+        window.add(exitButton).padBottom(20).row();
+
+
+        //Segunda tabla para las opciones
+        options = new Table(skin);
+        options.setBackground("window-c");
+        options.setVisible(false);
+        options.setSize(500, 500);
+        options.setPosition((Settings.GAME_WIDTH / 2 - window.getWidth() / 2)-60, Settings.GAME_HEIGHT / 2 - window.getHeight() / 2);
+
+        TextButton returnButton = new TextButton("Menu principal",skin);
+        returnButton.setSize(200,100);
+        returnButton.setDebug(true);
+        returnButton.getLabel().setFontScale(3f);
+        returnButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                options.setVisible(false);
+                window.setVisible(true);
+            }
+        });
+        options.add(returnButton).padBottom(20).row();
+
+        stage.addActor(window);
+        stage.addActor(options);
     }
 
     @Override
