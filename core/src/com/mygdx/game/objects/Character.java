@@ -16,6 +16,8 @@ public class Character extends Actor {
     public static final int CHARACTER_DOWN = 2;
     public static final int CHARACTER_RIGHT = 3;
     public static final int CHARACTER_LEFT = 4;
+
+    public boolean isAttack,isFacingRight;
     TextureRegion currentFrame;
 
     // Paràmetres del character
@@ -40,13 +42,24 @@ public class Character extends Actor {
         direction = CHARACTER_STRAIGHT;
 
         stayAnimation= AssetManager.characterAnimationStay;
+        rightAnimation= AssetManager.characterAnimationRight;
+        atackAnimation= AssetManager.characterAnimationAtack;
 
     }
 
     @Override
     public void draw(Batch batch, float parentAlpha) {
         super.draw(batch, parentAlpha);
-        currentFrame=stayAnimation.getKeyFrame(stateTime,true);
+
+        if(isAttack){
+            currentFrame=atackAnimation.getKeyFrame(stateTime,false);
+            if(atackAnimation.isAnimationFinished(stateTime)){
+                isAttack=false;
+            }
+        }
+        else {
+            currentFrame = stayAnimation.getKeyFrame(stateTime, true);
+        }
         batch.draw(currentFrame, getX(), getY(), getWidth(), getHeight());
     }
 
@@ -122,7 +135,16 @@ public class Character extends Actor {
     public void goStraight() {
         direction = CHARACTER_STRAIGHT;
     }
+
+    public void atack(){
+        if(!isAttack){
+            this.isAttack=true;
+            this.stateTime=0;
+        }
+
+    }
     public Rectangle getCollisionRect() {
+
         return collisionRect;
     }
 

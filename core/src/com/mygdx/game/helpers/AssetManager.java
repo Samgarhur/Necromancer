@@ -41,7 +41,7 @@ public class AssetManager {
         // Carreguem els 8 estats del character parat
         characterStay = new TextureRegion[8];
         for (int i = 0; i < characterStay.length; i++) {
-            characterStay[i] = new TextureRegion(characterSheet, (i * 160)+60, 60, 50, 60);
+            characterStay[i] = new TextureRegion(characterSheet, (i * 160)+55, 50, 60, 80);
             characterStay[i].flip(false,true);
 
         }
@@ -58,11 +58,11 @@ public class AssetManager {
         // Carreguem els 13 estats del character cuan ataca
         characterAtack = new TextureRegion[13];
         for (int i = 0; i < characterAtack.length; i++) {
-            characterAtack[i] = new TextureRegion(characterSheet, (i * 160)+60, 60, 50, 60);
+            characterAtack[i] = new TextureRegion(characterSheet, (i * 160)+60, 295, 60, 80);
             characterAtack[i].flip(false,true);
 
         }
-        characterAnimationAtack= new Animation<>(0.05f,characterAtack);
+        characterAnimationAtack= new Animation<>(0.03f,characterAtack);
     }
 
     public static void dispose() {

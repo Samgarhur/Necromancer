@@ -27,14 +27,17 @@ public class InputHandler implements InputProcessor {
         if (Gdx.input.isKeyPressed(Input.Keys.DOWN)||Gdx.input.isKeyPressed(Input.Keys.S)){
             this.character.goDown();
         }
-        if (Gdx.input.isKeyPressed(Input.Keys.UP)||Gdx.input.isKeyPressed(Input.Keys.W)){
+        else if (Gdx.input.isKeyPressed(Input.Keys.UP)||Gdx.input.isKeyPressed(Input.Keys.W)){
             this.character.goUp();
         }
-        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)||Gdx.input.isKeyPressed(Input.Keys.D)){
+        else if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)||Gdx.input.isKeyPressed(Input.Keys.D)){
             this.character.goRight();
         }
-        if (Gdx.input.isKeyPressed(Input.Keys.LEFT)||Gdx.input.isKeyPressed(Input.Keys.A)){
+        else if (Gdx.input.isKeyPressed(Input.Keys.LEFT)||Gdx.input.isKeyPressed(Input.Keys.A)){
             this.character.goLeft();
+        }
+        else if (Gdx.input.isKeyPressed(Input.Keys.ENTER)){
+            this.character.atack();
         }
         return true;
     }
@@ -54,6 +57,7 @@ public class InputHandler implements InputProcessor {
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
         previousY = screenY;
         previousX = screenX;
+        this.character.atack();
         return true;
     }
 

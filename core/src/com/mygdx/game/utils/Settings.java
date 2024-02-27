@@ -8,8 +8,8 @@ public class Settings {
 
     // Propietats del character
     public static final float CHARACTER_VELOCITY = 300;
-    public static final int CHARACTER_WIDTH =150;
-    public static final int CHARACTER_HEIGHT = 200;
+    public static final int CHARACTER_WIDTH =200;
+    public static final int CHARACTER_HEIGHT = 250;
     public static final float CHARACTER_STARTX = 5;
     public static final float CHARACTER_STARTY = GAME_HEIGHT/2 - CHARACTER_HEIGHT/2;
 
