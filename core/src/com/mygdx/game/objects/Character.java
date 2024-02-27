@@ -24,7 +24,7 @@ public class Character extends Actor {
     private Vector2 position;
     private int width, height;
     private int direction;
-    private Animation<TextureRegion> stayAnimation,rightAnimation,atackAnimation;
+    private Animation<TextureRegion> stayAnimation,atackAnimation;
 
     private float stateTime;
     private Rectangle collisionRect;
@@ -42,7 +42,6 @@ public class Character extends Actor {
         direction = CHARACTER_STRAIGHT;
 
         stayAnimation= AssetManager.characterAnimationStay;
-        rightAnimation= AssetManager.characterAnimationRight;
         atackAnimation= AssetManager.characterAnimationAtack;
 
     }

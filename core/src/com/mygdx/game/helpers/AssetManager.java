@@ -7,6 +7,8 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.mygdx.game.objects.Background;
 import com.mygdx.game.utils.Settings;
 
+import java.util.Set;
+
 public class AssetManager {
     // Sprite Sheet
     public static Texture characterSheet;
@@ -14,6 +16,8 @@ public class AssetManager {
     // Fons
     public static TextureRegion backgroundMain;
     public static TextureRegion background;
+
+    public static TextureRegion liveIcon;
 
     // Movimiento derecha,quieto y ataque de necromancer
     public static TextureRegion[] characterStay;
@@ -33,6 +37,10 @@ public class AssetManager {
         background=new TextureRegion(new Texture(Gdx.files.internal("Background/espacio.png")));
         background.flip(false,true);
 
+        liveIcon=new TextureRegion(new Texture(Gdx.files.internal("Icons/vida.png")));
+        liveIcon.flip(false,true);
+
+
 
         // Carreguem les textures i li apliquem el mètode d'escalat 'nearest'
         characterSheet = new Texture(Gdx.files.internal("Necromancer/Necromancer_Sheet.png"));
@@ -50,10 +58,10 @@ public class AssetManager {
         // Carreguem els 8 estats del character cuan es mou de dreta o esquerra
         characterRight = new TextureRegion[8];
         for (int i = 0; i < characterRight.length; i++) {
-            characterRight[i] = new TextureRegion(characterSheet, (i * 160)+60, 60, 50, 60);
+            characterRight[i] = new TextureRegion(characterSheet, (i * 160)+55, 150, 60, 80);
             characterRight[i].flip(false,true);
         }
-        characterAnimationRight= new Animation<>(0.05f,characterRight);
+        characterAnimationRight= new Animation<>(0.08f,characterRight);
 
         // Carreguem els 13 estats del character cuan ataca
         characterAtack = new TextureRegion[13];

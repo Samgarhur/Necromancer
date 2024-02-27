@@ -6,9 +6,11 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
+import com.mygdx.game.helpers.AssetManager;
 import com.mygdx.game.helpers.InputHandler;
 import com.mygdx.game.objects.Character;
 import com.mygdx.game.objects.ScrollHandler;
@@ -27,6 +29,7 @@ public class GameScreen implements Screen {
 
     // Per obtenir el batch de l'stage
     private Batch batch;
+    private TextureRegion liveIcon;
 
     public GameScreen() {
 
@@ -81,6 +84,21 @@ public class GameScreen implements Screen {
         shapeRenderer.end();
     }
 
+    private void drawLife() {
+        liveIcon= AssetManager.liveIcon;
+
+
+        // Dibujar el icono de vida en la esquina superior izquierda
+        batch.begin();
+        batch.draw(liveIcon, Settings.ICON_STARTX, Settings.ICON_STARTY, Settings.ICON_WIDTH, Settings.ICON_HEIGHT);
+        batch.end();
+
+
+
+    }
+
+
+
 
 
     @Override
@@ -94,6 +112,7 @@ public class GameScreen implements Screen {
         stage.draw();
         stage.act(delta);
         drawElements();
+        drawLife();
 
 
     }

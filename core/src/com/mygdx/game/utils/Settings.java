@@ -13,5 +13,11 @@ public class Settings {
     public static final float CHARACTER_STARTX = 5;
     public static final float CHARACTER_STARTY = GAME_HEIGHT/2 - CHARACTER_HEIGHT/2;
 
+
+    public static final int ICON_WIDTH =80;
+    public static final int ICON_HEIGHT = 100;
+    public static final float ICON_STARTX = 5;
+    public static final float ICON_STARTY = 10;
+
     public static final int BG_SPEED = -400;
 }
