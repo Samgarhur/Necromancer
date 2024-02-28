@@ -47,13 +47,13 @@ public class ScrollHandler extends Group {
 
         // Des del segon fins l'últim asteroide
         for (int i = 1; i < numEnemy; i++) {
-        // Creem la mida aleatòria
+            // Creem la mida aleatòria
             newSize = Methods.randomFloat(Settings.MIN_ENEMY, Settings.MAX_ENEMY) * 34;
-        // Afegim l'enemic
+            // Afegim l'enemic
             enemy = new Enemy(enemys.get(enemys.size() - 1).getTailX() + Settings.ENEMY_GAP, r.nextInt(Settings.GAME_HEIGHT - (int) newSize), newSize, newSize, Settings.ENEMY_SPEED);
-        // Afegim l'enemic a l'ArrayList
+            // Afegim l'enemic a l'ArrayList
             enemys.add(enemy);
-        // Afegim l'enemic al grup d'actors
+            // Afegim l'enemic al grup d'actors
             addActor(enemy);
         }
 
@@ -71,12 +71,12 @@ public class ScrollHandler extends Group {
 
         for (int i = 0; i < enemys.size(); i++) {
 
-            Enemy asteroid = enemys.get(i);
-            if (asteroid.isLeftOfScreen()) {
+            Enemy enemy = enemys.get(i);
+            if (enemy.isLeftOfScreen()) {
                 if (i == 0) {
-                    asteroid.reset(enemys.get(enemys.size() - 1).getTailX() + Settings.ENEMY_GAP);
+                    enemy.reset(enemys.get(enemys.size() - 1).getTailX() + Settings.ENEMY_GAP);
                 } else {
-                    asteroid.reset(enemys.get(i - 1).getTailX() + Settings.ENEMY_GAP);
+                    enemy.reset(enemys.get(i - 1).getTailX() + Settings.ENEMY_GAP);
                 }
             }
         }

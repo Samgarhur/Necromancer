@@ -13,6 +13,8 @@ public class AssetManager {
     // Sprite Sheet
     public static Texture characterSheet;
 
+    public static Texture enemySheet;
+
     // Iconos de vida
     public static TextureRegion[] lifeIcons;
     public static int[] lifeStates;
@@ -32,6 +34,10 @@ public class AssetManager {
 
     public static TextureRegion[]  characterAtack;
     public static Animation<TextureRegion>  characterAnimationAtack;
+
+    public static TextureRegion[] enemy;
+    public static Animation enemyAnimation;
+
 
 
 
@@ -57,6 +63,21 @@ public class AssetManager {
         // Inicialización de los iconos de vida y sus estados
         lifeIcons = new TextureRegion[]{emptyLiveIcon, liveIcon};
         lifeStates = new int[]{1, 1, 1}; // Representa tres iconos de vida llenos al principio
+
+
+        // Carreguem les textures i li apliquem el mètode d'escalat 'nearest'
+        enemySheet = new Texture(Gdx.files.internal("Enemy/Cacodaemon_Sheet.png"));
+        enemySheet .setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
+
+        // Carreguem els estats del enemy
+        enemy = new TextureRegion[16];
+        for (int i = 0; i < enemy.length; i++) {
+
+            enemy[i] = new TextureRegion(enemySheet, i * 34, 15, 34, 34);
+            enemy[i].flip(false, true);
+
+        }
+        enemyAnimation = new Animation(0.05f, enemy);
 
 
 
