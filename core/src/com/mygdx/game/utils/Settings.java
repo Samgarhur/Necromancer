@@ -4,7 +4,7 @@ public class Settings {
 
     ////////////////////////////////////////GAME//////////////////////////////////////////
     // Mida del joc, s'escalarà segons la necessitat
-    public static final int GAME_WIDTH = 1080;
+    public static final int GAME_WIDTH = 1280;
     public static final int GAME_HEIGHT = 960;
 
     ////////////////////////////////////////CHARACTER//////////////////////////////////////////
