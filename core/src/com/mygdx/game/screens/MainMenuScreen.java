@@ -44,11 +44,7 @@ public class MainMenuScreen implements Screen {
     TextureRegion backgroundRegion;
     Table options,window,root;
 
-    private Label titlePreferences;
-    private Label volumeMusicLabel;
-    private Label volumeSoundLabel;
-    private Label musicOnOffLabel;
-    private Label soundOnOffLabel;
+    private Label tittle,titlePreferences,volumeMusicLabel,volumeSoundLabel,musicOnOffLabel,soundOnOffLabel;
 
 
     public MainMenuScreen(Juego game) {
@@ -78,12 +74,12 @@ public class MainMenuScreen implements Screen {
         //Creamos una tabla(ventana) para tener ahi puesto los botones para iniciar
         window = new Table(skin);
         window.setBackground("window");
-        window.setSize(400, 400);
+        window.setSize(800, 500);
         window.setPosition(Settings.GAME_WIDTH / 2 - window.getWidth() / 2, Settings.GAME_HEIGHT / 2 - window.getHeight() / 2);
 
         TextButton playButton = new TextButton("Jugar",skin);
         //playButton.setSize(600,700);
-        playButton.setDebug(true);
+        //playButton.setDebug(true);
         playButton.getLabel().setFontScale(3f);
         playButton.addListener(new ClickListener() {
             @Override
@@ -96,7 +92,7 @@ public class MainMenuScreen implements Screen {
 
         TextButton optionsButton = new TextButton("Opcions",skin);
         //optionsButton.setSize(200,100);
-        optionsButton.setDebug(true);
+        //optionsButton.setDebug(true);
         optionsButton.getLabel().setFontScale(3f);
         optionsButton.addListener(new ClickListener() {
             @Override
@@ -109,7 +105,7 @@ public class MainMenuScreen implements Screen {
 
         TextButton exitButton = new TextButton("Sortir",skin);
         //exitButton.setSize(200,100);
-        exitButton.setDebug(true);
+        //exitButton.setDebug(true);
         exitButton.getLabel().setFontScale(3f);
         exitButton.addListener(new ClickListener() {
             @Override
@@ -131,8 +127,8 @@ public class MainMenuScreen implements Screen {
         options = new Table(skin);
         options.setBackground("window");
         options.setVisible(false);
-        options.setSize(500, 500);
-        options.setPosition((Settings.GAME_WIDTH / 2 - window.getWidth() / 2)-60, Settings.GAME_HEIGHT / 2 - window.getHeight() / 2);
+        options.setSize(800, 500);
+        options.setPosition((Settings.GAME_WIDTH / 2 - window.getWidth() / 2), Settings.GAME_HEIGHT / 2 - window.getHeight() / 2);
 
 
         //Controles volumen musica
@@ -149,6 +145,9 @@ public class MainMenuScreen implements Screen {
         //Controles volumen sonidos
         final Slider soundMusicSlider = new Slider( 0f, 1f, 0.1f,false, skin );
         soundMusicSlider.setValue( this.game.getPreferences().getSoundVolume() );
+        // Obtener el estilo actual del slider
+        Slider.SliderStyle sliderStyle = soundMusicSlider.getStyle();
+
         soundMusicSlider.addListener( new EventListener() {
             @Override
             public boolean handle(Event event) {
@@ -161,6 +160,15 @@ public class MainMenuScreen implements Screen {
         //Controles desactivar musica
         final CheckBox musicCheckbox = new CheckBox(null, skin);
         musicCheckbox.setChecked( this.game.getPreferences().isMusicEnabled() );
+
+        // Obtener el estilo actual del CheckBox
+        CheckBox.CheckBoxStyle checkBoxStyle = musicCheckbox.getStyle();
+
+        // Ajustar el tamaño del Drawable asociado al estilo del CheckBox
+        checkBoxStyle.checkboxOn.setMinWidth(30); // Ajusta el ancho del CheckBox cliclado
+        checkBoxStyle.checkboxOn.setMinHeight(30); // Ajusta la altura del CheckBox cliclado
+        checkBoxStyle.checkboxOff.setMinWidth(30); // Ajusta el ancho del CheckBox vacio
+        checkBoxStyle.checkboxOff.setMinHeight(30); // Ajusta la altura del CheckBox vacio
         musicCheckbox.addListener( new EventListener() {
             @Override
             public boolean handle(Event event) {
@@ -184,8 +192,7 @@ public class MainMenuScreen implements Screen {
 
         TextButton returnButton = new TextButton("Menu principal",skin);
         returnButton.setSize(200,100);
-        returnButton.setDebug(true);
-        //returnButton.getLabel().setFontScale(3f);
+        returnButton.getLabel().setFontScale(3f);
         returnButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -196,12 +203,17 @@ public class MainMenuScreen implements Screen {
 
 
         titlePreferences = new Label( "Opcions", skin );
+        titlePreferences.setFontScale(3f);
         volumeMusicLabel = new Label( "Volum musica", skin );
+        volumeMusicLabel.setFontScale(2f);
         volumeSoundLabel = new Label( "Volum sons", skin );
+        volumeSoundLabel.setFontScale(2f);
         musicOnOffLabel = new Label( "Musica", skin );
+        musicOnOffLabel.setFontScale(2f);
         soundOnOffLabel = new Label( "Efectes de so", skin );
+        soundOnOffLabel.setFontScale(2f);
 
-        titlePreferences.setDebug(true);
+        /*titlePreferences.setDebug(true);
         volumeMusicLabel.setDebug(true);
         volumeSoundLabel.setDebug(true);
         musicOnOffLabel.setDebug(true);
@@ -211,6 +223,7 @@ public class MainMenuScreen implements Screen {
         soundMusicSlider.setDebug(true);
         soundEffectsCheckbox.setDebug(true);
         musicCheckbox.setDebug(true);
+        returnButton.setDebug(true);*/
 
 
         options.add(titlePreferences).colspan(2);
@@ -227,7 +240,7 @@ public class MainMenuScreen implements Screen {
         options.add(soundOnOffLabel);
         options.add(soundEffectsCheckbox);
         options.row().pad(10,0,0,10);;
-        options.add(returnButton);
+        options.add(returnButton).colspan(2);
 
 
         //root.add(options);
