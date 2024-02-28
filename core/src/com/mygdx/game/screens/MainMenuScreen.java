@@ -8,9 +8,14 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.Event;
+import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.CheckBox;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Slider;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Window;
@@ -38,6 +43,12 @@ public class MainMenuScreen implements Screen {
     private Skin skin;
     TextureRegion backgroundRegion;
     Table options,window,root;
+
+    private Label titlePreferences;
+    private Label volumeMusicLabel;
+    private Label volumeSoundLabel;
+    private Label musicOnOffLabel;
+    private Label soundOnOffLabel;
 
 
     public MainMenuScreen(Juego game) {
@@ -123,10 +134,58 @@ public class MainMenuScreen implements Screen {
         options.setSize(500, 500);
         options.setPosition((Settings.GAME_WIDTH / 2 - window.getWidth() / 2)-60, Settings.GAME_HEIGHT / 2 - window.getHeight() / 2);
 
+
+        //Controles volumen musica
+        final Slider volumeMusicSlider = new Slider( 0f, 1f, 0.1f,false, skin );
+        volumeMusicSlider.setValue( this.game.getPreferences().getMusicVolume() );
+        volumeMusicSlider.addListener( new EventListener() {
+            @Override
+            public boolean handle(Event event) {
+                game.getPreferences().setMusicVolume( volumeMusicSlider.getValue() );
+                return false;
+            }
+        });
+
+        //Controles volumen sonidos
+        final Slider soundMusicSlider = new Slider( 0f, 1f, 0.1f,false, skin );
+        soundMusicSlider.setValue( this.game.getPreferences().getSoundVolume() );
+        soundMusicSlider.addListener( new EventListener() {
+            @Override
+            public boolean handle(Event event) {
+                game.getPreferences().setSoundVolume(soundMusicSlider.getValue() );
+                return false;
+            }
+        });
+
+
+        //Controles desactivar musica
+        final CheckBox musicCheckbox = new CheckBox(null, skin);
+        musicCheckbox.setChecked( this.game.getPreferences().isMusicEnabled() );
+        musicCheckbox.addListener( new EventListener() {
+            @Override
+            public boolean handle(Event event) {
+                boolean enabled = musicCheckbox.isChecked();
+                game.getPreferences().setMusicEnabled( enabled );
+                return false;
+            }
+        });
+
+        //Controles desactivar sonidos
+        final CheckBox soundEffectsCheckbox = new CheckBox(null, skin);
+        soundEffectsCheckbox.setChecked( this.game.getPreferences().isSoundEffectsEnabled() );
+        soundEffectsCheckbox.addListener( new EventListener() {
+            @Override
+            public boolean handle(Event event) {
+                boolean enabled = soundEffectsCheckbox.isChecked();
+                game.getPreferences().setSoundEffectsEnabled( enabled );
+                return false;
+            }
+        });
+
         TextButton returnButton = new TextButton("Menu principal",skin);
-        //returnButton.setSize(200,100);
+        returnButton.setSize(200,100);
         returnButton.setDebug(true);
-        returnButton.getLabel().setFontScale(3f);
+        //returnButton.getLabel().setFontScale(3f);
         returnButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -134,6 +193,42 @@ public class MainMenuScreen implements Screen {
                 window.setVisible(true);
             }
         });
+
+
+        titlePreferences = new Label( "Opcions", skin );
+        volumeMusicLabel = new Label( "Volum musica", skin );
+        volumeSoundLabel = new Label( "Volum sons", skin );
+        musicOnOffLabel = new Label( "Musica", skin );
+        soundOnOffLabel = new Label( "Efectes de so", skin );
+
+        titlePreferences.setDebug(true);
+        volumeMusicLabel.setDebug(true);
+        volumeSoundLabel.setDebug(true);
+        musicOnOffLabel.setDebug(true);
+        soundOnOffLabel.setDebug(true);
+
+        volumeMusicSlider.setDebug(true);
+        soundMusicSlider.setDebug(true);
+        soundEffectsCheckbox.setDebug(true);
+        musicCheckbox.setDebug(true);
+
+
+        options.add(titlePreferences).padBottom(20).row();
+        //options.row();
+        options.add(volumeMusicLabel);
+        options.add(volumeMusicSlider);
+        options.row();
+        options.add(musicOnOffLabel);
+        options.add(musicCheckbox);
+        options.row();
+        options.add(volumeSoundLabel);
+        options.add(soundMusicSlider);
+        options.row();
+        options.add(soundOnOffLabel);
+        options.add(soundEffectsCheckbox);
+        options.row();
+        options.add(returnButton);
+        options.add(volumeMusicSlider).padBottom(20).row();
         options.add(returnButton).padBottom(20).row();
 
         //root.add(options);

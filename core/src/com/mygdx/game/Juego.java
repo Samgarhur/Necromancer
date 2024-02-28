@@ -8,11 +8,15 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.mygdx.game.helpers.AssetManager;
 import com.mygdx.game.screens.GameScreen;
 import com.mygdx.game.screens.MainMenuScreen;
+import com.mygdx.game.utils.AppPreferences;
 
 public class Juego extends Game {
+	public AppPreferences preferences;
 
 	@Override
 	public void create () {
+
+		preferences = new AppPreferences();
 		// A l'iniciar el joc carreguem els recursos
 		AssetManager.load();
 		// I definim la pantalla principal com a la pantalla
@@ -46,5 +50,9 @@ public class Juego extends Game {
 	public void dispose () {
 		super.dispose();
 		AssetManager.dispose();
+	}
+
+	public AppPreferences getPreferences() {
+		return preferences;
 	}
 }
