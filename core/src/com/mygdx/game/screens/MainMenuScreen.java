@@ -63,7 +63,7 @@ public class MainMenuScreen implements Screen {
 
         //batch = stage.getBatch();
 
-        skin = new Skin(Gdx.files.internal("Skin/neon-ui.json"));
+        skin = new Skin(Gdx.files.internal("Skin/star-soldier-ui.json"));
 
         // Carga el fondo desde AssetManager
         backgroundRegion = AssetManager.backgroundMain;
@@ -77,7 +77,7 @@ public class MainMenuScreen implements Screen {
 
         //Creamos una tabla(ventana) para tener ahi puesto los botones para iniciar
         window = new Table(skin);
-        window.setBackground("window-c");
+        window.setBackground("window");
         window.setSize(400, 400);
         window.setPosition(Settings.GAME_WIDTH / 2 - window.getWidth() / 2, Settings.GAME_HEIGHT / 2 - window.getHeight() / 2);
 
@@ -129,7 +129,7 @@ public class MainMenuScreen implements Screen {
 
         //Segunda tabla para las opciones
         options = new Table(skin);
-        options.setBackground("window-c");
+        options.setBackground("window");
         options.setVisible(false);
         options.setSize(500, 500);
         options.setPosition((Settings.GAME_WIDTH / 2 - window.getWidth() / 2)-60, Settings.GAME_HEIGHT / 2 - window.getHeight() / 2);
@@ -177,7 +177,7 @@ public class MainMenuScreen implements Screen {
             @Override
             public boolean handle(Event event) {
                 boolean enabled = soundEffectsCheckbox.isChecked();
-                game.getPreferences().setSoundEffectsEnabled( enabled );
+                game.getPreferences().setSoundEffectsEnabled(enabled);
                 return false;
             }
         });
@@ -213,23 +213,22 @@ public class MainMenuScreen implements Screen {
         musicCheckbox.setDebug(true);
 
 
-        options.add(titlePreferences).padBottom(20).row();
-        //options.row();
-        options.add(volumeMusicLabel);
+        options.add(titlePreferences).colspan(2);
+        options.row().pad(10,0,0,10);;
+        options.add(volumeMusicLabel).left();
         options.add(volumeMusicSlider);
-        options.row();
+        options.row().pad(10,0,0,10);
         options.add(musicOnOffLabel);
         options.add(musicCheckbox);
-        options.row();
+        options.row().pad(10,0,0,10);;
         options.add(volumeSoundLabel);
         options.add(soundMusicSlider);
-        options.row();
+        options.row().pad(10,0,0,10);;
         options.add(soundOnOffLabel);
         options.add(soundEffectsCheckbox);
-        options.row();
+        options.row().pad(10,0,0,10);;
         options.add(returnButton);
-        options.add(volumeMusicSlider).padBottom(20).row();
-        options.add(returnButton).padBottom(20).row();
+
 
         //root.add(options);
 
