@@ -36,7 +36,7 @@ public class AssetManager {
     public static Animation<TextureRegion>  characterAnimationAtack;
 
     public static TextureRegion[] enemy;
-    public static Animation enemyAnimation;
+    public static Animation<TextureRegion> enemyAnimation;
 
 
 
@@ -70,14 +70,14 @@ public class AssetManager {
         enemySheet .setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
 
         // Carreguem els estats del enemy
-        enemy = new TextureRegion[16];
+        enemy = new TextureRegion[6];
         for (int i = 0; i < enemy.length; i++) {
 
-            enemy[i] = new TextureRegion(enemySheet, i * 34, 15, 34, 34);
-            enemy[i].flip(false, true);
+            enemy[i] = new TextureRegion(enemySheet, i * 64, 64, 64, 64);
+            enemy[i].flip(true, true);
 
         }
-        enemyAnimation = new Animation(0.05f, enemy);
+        enemyAnimation = new Animation<>(0.07f, enemy);
 
 
 

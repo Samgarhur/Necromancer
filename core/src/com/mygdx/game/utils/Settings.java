@@ -32,7 +32,7 @@ public class Settings {
 
     // Configuració scrollable
     public static final int ENEMY_SPEED = -150;
-    public static final int ENEMY_GAP = 75;
+    public static final int ENEMY_GAP = 150;
 
 
     public static final int BG_SPEED = -400;

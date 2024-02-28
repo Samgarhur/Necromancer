@@ -34,7 +34,7 @@ public class Enemy extends Scrollable{
     @Override
     public void draw(Batch batch, float parentAlpha) {
         super.draw(batch, parentAlpha);
-        batch.draw((TextureRegion) AssetManager.enemyAnimation.getKeyFrame(runTime), position.x, position.y, width, height);
+        batch.draw((TextureRegion) AssetManager.enemyAnimation.getKeyFrame(runTime,true), position.x, position.y, width, height);
     }
 
     // Retorna true si hi ha col·lisió

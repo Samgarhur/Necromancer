@@ -32,7 +32,7 @@ public class ScrollHandler extends Group {
         r = new Random();
 
         // Comencem amb 3 asteroides
-        numEnemy = 3;
+        numEnemy = 5;
 
         // Creem l'ArrayList
         enemys = new ArrayList<Enemy>();
@@ -45,7 +45,7 @@ public class ScrollHandler extends Group {
         enemys.add(enemy);
         addActor(enemy);
 
-        // Des del segon fins l'últim asteroide
+        // Des del segon fins l'últim enemy
         for (int i = 1; i < numEnemy; i++) {
             // Creem la mida aleatòria
             newSize = Methods.randomFloat(Settings.MIN_ENEMY, Settings.MAX_ENEMY) * 34;
@@ -74,12 +74,23 @@ public class ScrollHandler extends Group {
             Enemy enemy = enemys.get(i);
             if (enemy.isLeftOfScreen()) {
                 if (i == 0) {
-                    enemy.reset(enemys.get(enemys.size() - 1).getTailX() + Settings.ENEMY_GAP);
+                    enemy.reset(Settings.GAME_WIDTH + Settings.ENEMY_GAP);
                 } else {
-                    enemy.reset(enemys.get(i - 1).getTailX() + Settings.ENEMY_GAP);
+                    enemy.reset(Settings.GAME_WIDTH  + Settings.ENEMY_GAP);
                 }
             }
         }
+    }
+
+    public boolean collides(Character character) {
+
+        // Comprovem les col·lisions entre cada enemy i el character
+        for (Enemy enemy : enemys) {
+            if (enemy.collides(character)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public ArrayList<Enemy> getEnemys() {
