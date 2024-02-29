@@ -184,7 +184,7 @@ public class GameScreen implements Screen {
         if (!isGameOver) {
             if (vidas > 0) {
             // Dibuixem i actualitzem tots els actors de l'stage
-            //drawElements();
+            drawElements();
             drawLife();
             if (scrollHandler.collides(character)) {
 
