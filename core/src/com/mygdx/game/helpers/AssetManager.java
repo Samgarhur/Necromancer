@@ -142,6 +142,7 @@ public class AssetManager {
         //Carreguem el so cuan el character mor
         Dead= Gdx.audio.newSound((Gdx.files.internal("Sounds/Dead.wav")));
 
+
     }
 
     public static void dispose() {

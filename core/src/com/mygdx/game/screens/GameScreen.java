@@ -175,8 +175,7 @@ public class GameScreen implements Screen {
             drawLife();
             if (scrollHandler.collides(character)) {
 
-                //Gdx.app.log("App", "Explosió");
-                // Si hi ha hagut col·lisió: Reproduïm l'explosió
+                // Si hi ha hagut col·lisió Reproduïm el so de impacte
                 AssetManager.Impact.play();
                 ArrayList<Enemy> enemys = scrollHandler.getEnemys();
                 for (int i = 0; i < enemys.size(); i++) {
@@ -206,6 +205,9 @@ public class GameScreen implements Screen {
 
             //Reproduim la animacio de cuan el caracter es mor
             character.death();
+
+            //Si hi mort reporduim el so de mort
+            AssetManager.Dead.play();
 
 
 
