@@ -2,7 +2,9 @@ package com.mygdx.game.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Event;
 import com.badlogic.gdx.scenes.scene2d.EventListener;
@@ -65,17 +67,21 @@ public class MainMenuScreen implements Screen {
         // Añade el fondo al escenario
         stage.addActor(background);
         Gdx.input.setInputProcessor(stage);
-        title =new Label("NECROMANCER", skin);
-        title.setFontScale(4F);
-        title.setPosition((Settings.GAME_WIDTH / 2 - title.getWidth() / 2)-300, Settings.GAME_HEIGHT - 200);
+
+        // Obtener la fuente de texto "title" de la skin
+        BitmapFont font = skin.getFont("title");
+
+        title =new Label("NECROMANCER", new Label.LabelStyle(font, Color.WHITE));
+        title.setFontScale(1.5F);
+        title.setPosition((Settings.GAME_WIDTH / 2 - title.getWidth() / 2)-180, Settings.GAME_HEIGHT - 200);
         stage.addActor(title);
 
 
 
         //Creamos una tabla(ventana) para tener ahi puesto los botones para iniciar
         window = new Table(skin);
-        window.setBackground("window");
-        window.setSize(800, 500);
+        window.setBackground("window-special");
+        window.setSize(500, 500);
         window.setPosition(Settings.GAME_WIDTH / 2 - window.getWidth() / 2, (Settings.GAME_HEIGHT / 2 - window.getHeight() / 2)-100);
 
 
@@ -129,10 +135,10 @@ public class MainMenuScreen implements Screen {
 
         //Segunda tabla para las opciones
         options = new Table(skin);
-        options.setBackground("window");
+        options.setBackground("window-special");
         options.setVisible(false);
         options.setSize(800, 500);
-        options.setPosition((Settings.GAME_WIDTH / 2 - window.getWidth() / 2), (Settings.GAME_HEIGHT / 2 - window.getHeight() / 2)-100);
+        options.setPosition((Settings.GAME_WIDTH / 2 - options.getWidth() / 2), (Settings.GAME_HEIGHT / 2 - options.getHeight() / 2)-100);
 
 
         //Controles volumen musica

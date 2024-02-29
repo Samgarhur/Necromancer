@@ -3,6 +3,7 @@ package com.mygdx.game.helpers;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -46,14 +47,18 @@ public class AssetManager {
     public static Music GameMusic;
     public static Sound Impact;
     public static Sound Dead;
+    public static FileHandle fuente;
 
 
 
 
     public static void load() {
 
+        //Carreguem la font per als misatges
+        fuente =Gdx.files.internal("Skin/font-export.fnt");
+
         //Carreguem fons del menu principal y del joc
-        backgroundMain=new TextureRegion(new Texture(Gdx.files.internal("Background/fondoNegro.jpg")));
+        backgroundMain=new TextureRegion(new Texture(Gdx.files.internal("Background/fondoSpace.jpg")));
         background=new TextureRegion(new Texture(Gdx.files.internal("Background/espacio.png")));
         //background.flip(false,true);
 

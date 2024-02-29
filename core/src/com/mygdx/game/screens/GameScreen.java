@@ -3,11 +3,13 @@ package com.mygdx.game.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -30,7 +32,7 @@ public class GameScreen implements Screen {
     private Stage stage;
     private Character character;
     private ScrollHandler scrollHandler;
-    private Label gameOverLabel;
+    private
 
     OrthographicCamera camera;
 
@@ -164,16 +166,6 @@ public class GameScreen implements Screen {
     @Override
     public void show() {
 
-            // Crear el texto "Game Over" con la fuente de la skin
-            gameOverLabel = new Label("Game Over", skin);
-            // Establecer la posición del texto en el centro de la pantalla
-            gameOverLabel.setPosition((Settings.GAME_WIDTH - gameOverLabel.getWidth()) / 2, (Settings.GAME_HEIGHT - gameOverLabel.getHeight()) / 2);
-            // Establecer la escala del texto (ajusta según tus necesidades)
-            gameOverLabel.setFontScale(3f);
-            // Establecer la rotación del texto a 90 grados (girado en sentido antihorario)
-            gameOverLabel.setRotation(360f);
-            // Agregar el texto al stage para que se dibuje
-            stage.addActor(gameOverLabel);
 
     }
 
@@ -187,20 +179,18 @@ public class GameScreen implements Screen {
             drawElements();
             drawLife();
             if (scrollHandler.collides(character)) {
-
                 // Si hi ha hagut col·lisió Reproduïm el so de impacte
                 if(soundsEnabled) {
                     Long impactSound=AssetManager.Impact.play();
                     AssetManager.Impact.setVolume(impactSound,soundsVolume);
-
                 }
                 ArrayList<Enemy> enemys = scrollHandler.getEnemys();
                 for (int i = 0; i < enemys.size(); i++) {
                     Enemy enemy = enemys.get(i);
                     if (enemy.collides(character)) {
-                        // Eliminar el enemigo de la lista y del escenario
+                        // Eliminar el enemy de la lista y del escenario
                         scrollHandler.removeEnemy(i);
-                        break; // Salir del bucle una vez eliminado el enemigo
+                        break; // Salir del bucle una vez eliminado el enemy
                     }
                 }
                 vidas--;
@@ -223,8 +213,20 @@ public class GameScreen implements Screen {
 
                 }
 
-
          }
+        }
+        else{
+
+            FileHandle fuente =AssetManager.fuente;
+
+            // Obtener la fuente de texto de la skin
+            BitmapFont font = new BitmapFont(fuente,true);
+            font.getData().scale(3f);
+
+
+            batch.begin();
+            font.draw(batch, "Game Over", Settings.GAME_WIDTH/2, Settings.GAME_HEIGHT/2);
+            batch.end();
         }
 
 
