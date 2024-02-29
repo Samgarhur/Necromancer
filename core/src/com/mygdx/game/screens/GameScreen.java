@@ -225,7 +225,7 @@ public class GameScreen implements Screen {
 
 
             batch.begin();
-            font.draw(batch, "Game Over", Settings.GAME_WIDTH/2, Settings.GAME_HEIGHT/2);
+            font.draw(batch, "Game Over", (Settings.GAME_WIDTH/2)-300, Settings.GAME_HEIGHT/2);
             batch.end();
         }
 
