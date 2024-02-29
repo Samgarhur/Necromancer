@@ -11,6 +11,8 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.mygdx.game.helpers.AssetManager;
 import com.mygdx.game.helpers.InputHandler;
@@ -36,11 +38,16 @@ public class GameScreen implements Screen {
     // Per obtenir el batch de l'stage
     private Batch batch;
     private TextureRegion liveIcon;
+
+
+
+    private Skin skin;
     Music music;
     AppPreferences preferences = new AppPreferences();
     boolean musicEnabled = preferences.isMusicEnabled();
     float musicVolume = preferences.getMusicVolume();
     public int vidas = 3;
+
 
     private Boolean gameOver = false;
 
@@ -51,6 +58,7 @@ public class GameScreen implements Screen {
             AssetManager.GameMusic.setVolume(musicVolume);
             AssetManager.GameMusic.play();
         };
+        skin = new Skin(Gdx.files.internal("Skin/star-soldier-ui.json"));
 
         // Creem el ShapeRenderer
         shapeRenderer = new ShapeRenderer();
@@ -145,9 +153,6 @@ public class GameScreen implements Screen {
             batch.end();
         }
 
-
-
-
     }
 
 
@@ -161,17 +166,16 @@ public class GameScreen implements Screen {
 
     @Override
     public void render(float delta) {
-
+        stage.draw();
+        stage.act(delta);
 
         if (vidas > 0) {
             // Dibuixem i actualitzem tots els actors de l'stage
-            stage.draw();
-            stage.act(delta);
             drawElements();
             drawLife();
             if (scrollHandler.collides(character)) {
-                // La nau explota i desapareix
-                Gdx.app.log("App", "Explosió");
+
+                //Gdx.app.log("App", "Explosió");
                 // Si hi ha hagut col·lisió: Reproduïm l'explosió
                 AssetManager.Impact.play();
                 ArrayList<Enemy> enemys = scrollHandler.getEnemys();
@@ -187,15 +191,22 @@ public class GameScreen implements Screen {
                 Gdx.app.log("VIDAS", ""+vidas);
             }
         } else {
-            //stage.getRoot().findActor("character").remove();
-            BitmapFont font = new BitmapFont(true);
+
+            // Cargar la fuente desde la skin
+            BitmapFont font = skin.get("font", BitmapFont.class);
+
             batch.begin();
-            // Si hi ha hagut col·lisió: reproduïm l'animacio de mort del character
-            font.draw(batch, "GameOver", Settings.GAME_WIDTH/2,Settings.GAME_HEIGHT/2);
-            //batch.draw((TextureRegion) AssetManager.explosionAnim.getKeyFrame(explosionTime, false), (spacecraft.getX() + spacecraft.getWidth() / 2) - 32, spacecraft.getY() + spacecraft.getHeight() / 2 - 32, 64, 64);
+            // Dibujar el texto "Game Over" utilizando la fuente de la skin
+            font.draw(batch, "Game Over", Settings.GAME_WIDTH/2,Settings.GAME_HEIGHT/2);
+
+
             batch.end();
             //Aturem la musica
             AssetManager.GameMusic.stop();
+
+            //Reproduim la animacio de cuan el caracter es mor
+            character.death();
+
 
 
         }

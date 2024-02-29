@@ -37,6 +37,9 @@ public class AssetManager {
     public static TextureRegion[]  characterAtack;
     public static Animation<TextureRegion>  characterAnimationAtack;
 
+    public static TextureRegion[]  characterDead;
+    public static Animation<TextureRegion>  characterAnimationDead;
+
     public static TextureRegion[] enemy;
     public static Animation<TextureRegion> enemyAnimation;
     public static Music MainMenuMusic;
@@ -57,7 +60,7 @@ public class AssetManager {
 
         // Carga del icono de vida
         Texture liveIconTexture = new Texture(Gdx.files.internal("Icons/calavera.png"));
-        liveIconTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+        //liveIconTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
 
         TextureRegion liveIcon = new TextureRegion(liveIconTexture);
         liveIcon.flip(false, true);
@@ -114,6 +117,15 @@ public class AssetManager {
 
         }
         characterAnimationAtack= new Animation<>(0.03f,characterAtack);
+
+        // Carreguem els 10 estats del character cuan es mor
+        characterDead = new TextureRegion[10];
+        for (int i = 0; i < characterDead.length; i++) {
+            characterDead[i] = new TextureRegion(characterSheet, (i * 160)+60, 800, 60, 80);
+            characterDead[i].flip(false,true);
+
+        }
+        characterAnimationDead= new Animation<>(0.1f,characterDead);
 
 /////////////////////////////////////////////Musica i sons //////////////////////////////////////////////////////////////////////////////////////////
         //Carreguem la musica del menu principal

@@ -16,51 +16,56 @@ public class ScrollHandler extends Group {
     int numEnemy;
     ArrayList<Enemy> enemys;
     Random r;
+    private boolean isRunning = true; // Variable para controlar si el ScrollHandler está en funcionamiento
 
 
     public ScrollHandler() {
-        //Creem els dos fons
-        bg = new Background(0, 0, Settings.GAME_WIDTH * 2, Settings.GAME_HEIGHT, Settings.BG_SPEED);
-        bg_back = new Background(bg.getTailX(), 0, Settings.GAME_WIDTH * 2, Settings.GAME_HEIGHT, Settings.BG_SPEED);
-
-        //Afegim els fons (actors) al grup
-        addActor(bg);
-        addActor(bg_back);
 
 
-        // Creem l'objecte random
-        r = new Random();
+            //Creem els dos fons
+            bg = new Background(0, 0, Settings.GAME_WIDTH * 2, Settings.GAME_HEIGHT, Settings.BG_SPEED);
+            bg_back = new Background(bg.getTailX(), 0, Settings.GAME_WIDTH * 2, Settings.GAME_HEIGHT, Settings.BG_SPEED);
 
-        // Comencem amb 3 asteroides
-        numEnemy = 3;
+            //Afegim els fons (actors) al grup
+            addActor(bg);
+            addActor(bg_back);
 
-        // Creem l'ArrayList
-        enemys = new ArrayList<Enemy>();
 
-        // Definim una mida aleatòria entre el mínim i el màxim
-        float newSize = Methods.randomFloat(Settings.MIN_ENEMY, Settings.MAX_ENEMY) * 34;
+            // Creem l'objecte random
+            r = new Random();
 
-        // Afegim el primer enemic a l'array i al grup
-        Enemy enemy = new Enemy(Settings.GAME_WIDTH, r.nextInt(Settings.GAME_HEIGHT - (int) newSize), newSize, newSize, Methods.randomFloat(Settings.ENEMY_SPEED_MIN, Settings.ENEMY_SPEED_MAX));
-        enemys.add(enemy);
-        addActor(enemy);
+            // Comencem amb 3 asteroides
+            numEnemy = 3;
 
-        // Des del segon fins l'últim enemy
-        for (int i = 1; i < numEnemy; i++) {
-            // Creem la mida aleatòria
-            newSize = Methods.randomFloat(Settings.MIN_ENEMY, Settings.MAX_ENEMY) * 34;
-            // Afegim l'enemic
-            enemy = new Enemy(enemys.get(enemys.size() - 1).getTailX() + Settings.ENEMY_GAP, r.nextInt(Settings.GAME_HEIGHT - (int) newSize), newSize, newSize, Methods.randomFloat(Settings.ENEMY_SPEED_MIN, Settings.ENEMY_SPEED_MAX));
-            // Afegim l'enemic a l'ArrayList
+            // Creem l'ArrayList
+            enemys = new ArrayList<Enemy>();
+
+            // Definim una mida aleatòria entre el mínim i el màxim
+            float newSize = Methods.randomFloat(Settings.MIN_ENEMY, Settings.MAX_ENEMY) * 34;
+
+            // Afegim el primer enemic a l'array i al grup
+            Enemy enemy = new Enemy(Settings.GAME_WIDTH, r.nextInt(Settings.GAME_HEIGHT - (int) newSize), newSize, newSize, Methods.randomFloat(Settings.ENEMY_SPEED_MIN, Settings.ENEMY_SPEED_MAX));
             enemys.add(enemy);
-            // Afegim l'enemic al grup d'actors
             addActor(enemy);
-        }
+
+            // Des del segon fins l'últim enemy
+            for (int i = 1; i < numEnemy; i++) {
+                // Creem la mida aleatòria
+                newSize = Methods.randomFloat(Settings.MIN_ENEMY, Settings.MAX_ENEMY) * 34;
+                // Afegim l'enemic
+                enemy = new Enemy(enemys.get(enemys.size() - 1).getTailX() + Settings.ENEMY_GAP, r.nextInt(Settings.GAME_HEIGHT - (int) newSize), newSize, newSize, Methods.randomFloat(Settings.ENEMY_SPEED_MIN, Settings.ENEMY_SPEED_MAX));
+                // Afegim l'enemic a l'ArrayList
+                enemys.add(enemy);
+                // Afegim l'enemic al grup d'actors
+                addActor(enemy);
+            }
+
 
     }
 
     public void act(float delta) {
         super.act(delta);
+
         // Si algun element es troba fora de la pantalla, fem un reset de l'element
         if (bg.isLeftOfScreen()) {
             bg.reset(bg_back.getTailX());
@@ -103,6 +108,7 @@ public class ScrollHandler extends Group {
     public ArrayList<Enemy> getEnemys() {
         return enemys;
     }
+
 
 
 }

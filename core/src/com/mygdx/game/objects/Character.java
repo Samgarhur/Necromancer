@@ -17,14 +17,15 @@ public class Character extends Actor {
     public static final int CHARACTER_RIGHT = 3;
     public static final int CHARACTER_LEFT = 4;
 
-    public boolean isAttack,isFacingRight;
+    public boolean isAttack;
+    public boolean isDead=false;
     TextureRegion currentFrame;
 
     // Paràmetres del character
     private Vector2 position;
     private int width, height;
     private int direction;
-    private Animation<TextureRegion> stayAnimation,atackAnimation;
+    private Animation<TextureRegion> stayAnimation,atackAnimation,deadAnimation;
 
     private float stateTime;
     private Rectangle collisionRect;
@@ -43,6 +44,7 @@ public class Character extends Actor {
 
         stayAnimation= AssetManager.characterAnimationStay;
         atackAnimation= AssetManager.characterAnimationAtack;
+        deadAnimation= AssetManager.characterAnimationDead;
         collisionRect = new Rectangle();
 
     }
@@ -55,6 +57,12 @@ public class Character extends Actor {
             currentFrame=atackAnimation.getKeyFrame(stateTime,false);
             if(atackAnimation.isAnimationFinished(stateTime)){
                 isAttack=false;
+            }
+        }
+        if(isDead){
+            currentFrame=deadAnimation.getKeyFrame(stateTime,false);
+            if(deadAnimation.isAnimationFinished(stateTime)){
+                //isDead=false;
             }
         }
         else {
@@ -140,6 +148,14 @@ public class Character extends Actor {
     public void atack(){
         if(!isAttack){
             this.isAttack=true;
+            this.stateTime=0;
+        }
+
+    }
+
+    public void death(){
+        if(!isDead){
+            this.isDead=true;
             this.stateTime=0;
         }
 
