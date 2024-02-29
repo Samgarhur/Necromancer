@@ -1,6 +1,8 @@
 package com.mygdx.game.helpers;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -37,18 +39,21 @@ public class AssetManager {
 
     public static TextureRegion[] enemy;
     public static Animation<TextureRegion> enemyAnimation;
+    public static Music MainMenuMusic;
+    public static Music GameMusic;
+    public static Sound Impact;
+    public static Sound Dead;
 
 
 
 
     public static void load() {
+
         //Carreguem fons del menu principal y del joc
         backgroundMain=new TextureRegion(new Texture(Gdx.files.internal("Background/fondoNegro.jpg")));
         background=new TextureRegion(new Texture(Gdx.files.internal("Background/espacio.png")));
         background.flip(false,true);
 
-        /*liveIcon=new TextureRegion(new Texture(Gdx.files.internal("Icons/vida.png")));
-        liveIcon.flip(false,true);*/
 
         // Carga del icono de vida
         Texture liveIconTexture = new Texture(Gdx.files.internal("Icons/calavera.png"));
@@ -80,7 +85,6 @@ public class AssetManager {
         enemyAnimation = new Animation<>(0.07f, enemy);
 
 
-
         // Carreguem les textures i li apliquem el mètode d'escalat 'nearest'
         characterSheet = new Texture(Gdx.files.internal("Necromancer/Necromancer_Sheet.png"));
         characterSheet.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
@@ -110,10 +114,32 @@ public class AssetManager {
 
         }
         characterAnimationAtack= new Animation<>(0.03f,characterAtack);
+
+/////////////////////////////////////////////Musica i sons //////////////////////////////////////////////////////////////////////////////////////////
+        //Carreguem la musica del menu principal
+        MainMenuMusic = Gdx.audio.newMusic((Gdx.files.internal("Music/metal.mp3")));
+        MainMenuMusic.setLooping(true);
+
+        //Carreguem la musica del joc
+        GameMusic = Gdx.audio.newMusic((Gdx.files.internal("Music/Points.mp3")));
+        GameMusic.setLooping(true);
+
+        //Carreguem el so cuan impactem
+        Impact= Gdx.audio.newSound((Gdx.files.internal("Sounds/Impact.wav")));
+
+        //Carreguem el so cuan el character mor
+        Dead= Gdx.audio.newSound((Gdx.files.internal("Sounds/Dead.wav")));
+
     }
 
     public static void dispose() {
         characterSheet.dispose();
+        enemySheet.dispose();
+        GameMusic.dispose();
+        MainMenuMusic.dispose();
+        Impact.dispose();
+        Dead.dispose();
+
 
     }
 }

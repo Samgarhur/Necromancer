@@ -32,7 +32,7 @@ public class ScrollHandler extends Group {
         r = new Random();
 
         // Comencem amb 3 asteroides
-        numEnemy = 5;
+        numEnemy = 3;
 
         // Creem l'ArrayList
         enemys = new ArrayList<Enemy>();
@@ -41,7 +41,7 @@ public class ScrollHandler extends Group {
         float newSize = Methods.randomFloat(Settings.MIN_ENEMY, Settings.MAX_ENEMY) * 34;
 
         // Afegim el primer enemic a l'array i al grup
-        Enemy enemy = new Enemy(Settings.GAME_WIDTH, r.nextInt(Settings.GAME_HEIGHT - (int) newSize), newSize, newSize, Settings.ENEMY_SPEED);
+        Enemy enemy = new Enemy(Settings.GAME_WIDTH, r.nextInt(Settings.GAME_HEIGHT - (int) newSize), newSize, newSize, Methods.randomFloat(Settings.ENEMY_SPEED_MIN, Settings.ENEMY_SPEED_MAX));
         enemys.add(enemy);
         addActor(enemy);
 
@@ -50,7 +50,7 @@ public class ScrollHandler extends Group {
             // Creem la mida aleatòria
             newSize = Methods.randomFloat(Settings.MIN_ENEMY, Settings.MAX_ENEMY) * 34;
             // Afegim l'enemic
-            enemy = new Enemy(enemys.get(enemys.size() - 1).getTailX() + Settings.ENEMY_GAP, r.nextInt(Settings.GAME_HEIGHT - (int) newSize), newSize, newSize, Settings.ENEMY_SPEED);
+            enemy = new Enemy(enemys.get(enemys.size() - 1).getTailX() + Settings.ENEMY_GAP, r.nextInt(Settings.GAME_HEIGHT - (int) newSize), newSize, newSize, Methods.randomFloat(Settings.ENEMY_SPEED_MIN, Settings.ENEMY_SPEED_MAX));
             // Afegim l'enemic a l'ArrayList
             enemys.add(enemy);
             // Afegim l'enemic al grup d'actors
@@ -91,6 +91,13 @@ public class ScrollHandler extends Group {
             }
         }
         return false;
+    }
+
+    public void removeEnemy(int index) {
+        if (index >= 0 && index < enemys.size()) {
+            Enemy enemy = enemys.get(index);
+            enemy.reset((Settings.GAME_WIDTH+50) + Settings.ENEMY_RESET); // Eliminar el enemigo del escenario
+        }
     }
 
     public ArrayList<Enemy> getEnemys() {

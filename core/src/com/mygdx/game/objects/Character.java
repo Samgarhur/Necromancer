@@ -43,6 +43,7 @@ public class Character extends Actor {
 
         stayAnimation= AssetManager.characterAnimationStay;
         atackAnimation= AssetManager.characterAnimationAtack;
+        collisionRect = new Rectangle();
 
     }
 
@@ -93,6 +94,7 @@ public class Character extends Actor {
             case CHARACTER_STRAIGHT:
                 break;
         }
+        collisionRect.set(position.x, position.y + 3, width, 10);
     }
 
 

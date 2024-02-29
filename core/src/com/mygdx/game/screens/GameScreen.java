@@ -2,10 +2,12 @@ package com.mygdx.game.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -15,6 +17,7 @@ import com.mygdx.game.helpers.InputHandler;
 import com.mygdx.game.objects.Character;
 import com.mygdx.game.objects.Enemy;
 import com.mygdx.game.objects.ScrollHandler;
+import com.mygdx.game.utils.AppPreferences;
 import com.mygdx.game.utils.Settings;
 
 import java.util.ArrayList;
@@ -33,8 +36,21 @@ public class GameScreen implements Screen {
     // Per obtenir el batch de l'stage
     private Batch batch;
     private TextureRegion liveIcon;
+    Music music;
+    AppPreferences preferences = new AppPreferences();
+    boolean musicEnabled = preferences.isMusicEnabled();
+    float musicVolume = preferences.getMusicVolume();
+    public int vidas = 3;
+
+    private Boolean gameOver = false;
 
     public GameScreen() {
+
+        //Reproduim la musica desde l'assets manager si esta activada i li posem el volum que tenim a les opcions
+        if(musicEnabled) {
+            AssetManager.GameMusic.setVolume(musicVolume);
+            AssetManager.GameMusic.play();
+        };
 
         // Creem el ShapeRenderer
         shapeRenderer = new ShapeRenderer();
@@ -128,7 +144,7 @@ public class GameScreen implements Screen {
             batch.draw(lifeIcon, iconX, iconY, Settings.ICON_WIDTH, Settings.ICON_HEIGHT);
             batch.end();
         }
-        //batch.draw(liveIcon, Settings.ICON_STARTX, Settings.ICON_STARTY, Settings.ICON_WIDTH, Settings.ICON_HEIGHT);
+
 
 
 
@@ -145,11 +161,44 @@ public class GameScreen implements Screen {
 
     @Override
     public void render(float delta) {
-        // Dibuixem i actualitzem tots els actors de l'stage
-        stage.draw();
-        stage.act(delta);
-        drawElements();
-        drawLife();
+
+
+        if (vidas > 0) {
+            // Dibuixem i actualitzem tots els actors de l'stage
+            stage.draw();
+            stage.act(delta);
+            drawElements();
+            drawLife();
+            if (scrollHandler.collides(character)) {
+                // La nau explota i desapareix
+                Gdx.app.log("App", "Explosió");
+                // Si hi ha hagut col·lisió: Reproduïm l'explosió
+                AssetManager.Impact.play();
+                ArrayList<Enemy> enemys = scrollHandler.getEnemys();
+                for (int i = 0; i < enemys.size(); i++) {
+                    Enemy enemy = enemys.get(i);
+                    if (enemy.collides(character)) {
+                        // Eliminar el enemigo de la lista y del escenario
+                        scrollHandler.removeEnemy(i);
+                        break; // Salir del bucle una vez eliminado el enemigo
+                    }
+                }
+                vidas--;
+                Gdx.app.log("VIDAS", ""+vidas);
+            }
+        } else {
+            //stage.getRoot().findActor("character").remove();
+            BitmapFont font = new BitmapFont(true);
+            batch.begin();
+            // Si hi ha hagut col·lisió: reproduïm l'animacio de mort del character
+            font.draw(batch, "GameOver", Settings.GAME_WIDTH/2,Settings.GAME_HEIGHT/2);
+            //batch.draw((TextureRegion) AssetManager.explosionAnim.getKeyFrame(explosionTime, false), (spacecraft.getX() + spacecraft.getWidth() / 2) - 32, spacecraft.getY() + spacecraft.getHeight() / 2 - 32, 64, 64);
+            batch.end();
+            //Aturem la musica
+            AssetManager.GameMusic.stop();
+
+
+        }
 
 
     }

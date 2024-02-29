@@ -2,6 +2,7 @@ package com.mygdx.game.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -24,31 +25,35 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.mygdx.game.Juego;
 import com.mygdx.game.helpers.AssetManager;
+import com.mygdx.game.objects.Background;
 import com.mygdx.game.objects.BackgroundMain;
+import com.mygdx.game.utils.AppPreferences;
 import com.mygdx.game.utils.Settings;
 
 import javax.swing.JWindow;
 
 public class MainMenuScreen implements Screen {
     final Juego game;
-
     private Stage stage;
 
-    OrthographicCamera camera;
-
-    private ShapeRenderer shapeRenderer;
-
-    // Per obtenir el batch de l'stage
-    private Batch batch;
     private Skin skin;
     TextureRegion backgroundRegion;
     Table options,window,root;
+    AppPreferences preferences = new AppPreferences();
+    boolean musicEnabled = preferences.isMusicEnabled();
+    float musicVolume = preferences.getMusicVolume();
 
     private Label tittle,titlePreferences,volumeMusicLabel,volumeSoundLabel,musicOnOffLabel,soundOnOffLabel;
 
 
     public MainMenuScreen(Juego game) {
         this.game=game;
+
+        //Reproduim la musica desde l'assets manager si esta activada i li posem el volum que tenim a les opcions
+        if(musicEnabled) {
+            AssetManager.MainMenuMusic.setVolume(musicVolume);
+            AssetManager.MainMenuMusic.play();
+        }
 
 
         // Creem el viewport amb les mateixes dimensions que la càmera
@@ -85,6 +90,7 @@ public class MainMenuScreen implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 game.setScreen(new GameScreen());
+                AssetManager.MainMenuMusic.stop();
             }
         });
 
@@ -99,6 +105,7 @@ public class MainMenuScreen implements Screen {
             public void clicked(InputEvent event, float x, float y) {
                 window.setVisible(false);
                 options.setVisible(true);
+
 
             }
         });
@@ -137,7 +144,9 @@ public class MainMenuScreen implements Screen {
         volumeMusicSlider.addListener( new EventListener() {
             @Override
             public boolean handle(Event event) {
+                float volume = volumeMusicSlider.getValue();
                 game.getPreferences().setMusicVolume( volumeMusicSlider.getValue() );
+                AssetManager.MainMenuMusic.setVolume(volume);
                 return false;
             }
         });
@@ -145,8 +154,6 @@ public class MainMenuScreen implements Screen {
         //Controles volumen sonidos
         final Slider soundMusicSlider = new Slider( 0f, 1f, 0.1f,false, skin );
         soundMusicSlider.setValue( this.game.getPreferences().getSoundVolume() );
-        // Obtener el estilo actual del slider
-        Slider.SliderStyle sliderStyle = soundMusicSlider.getStyle();
 
         soundMusicSlider.addListener( new EventListener() {
             @Override
@@ -174,6 +181,11 @@ public class MainMenuScreen implements Screen {
             public boolean handle(Event event) {
                 boolean enabled = musicCheckbox.isChecked();
                 game.getPreferences().setMusicEnabled( enabled );
+                if(enabled){
+                    AssetManager.MainMenuMusic.play();
+                }
+                else
+                    AssetManager.MainMenuMusic.pause();
                 return false;
             }
         });
@@ -213,18 +225,6 @@ public class MainMenuScreen implements Screen {
         soundOnOffLabel = new Label( "Efectes de so", skin );
         soundOnOffLabel.setFontScale(2f);
 
-        /*titlePreferences.setDebug(true);
-        volumeMusicLabel.setDebug(true);
-        volumeSoundLabel.setDebug(true);
-        musicOnOffLabel.setDebug(true);
-        soundOnOffLabel.setDebug(true);
-
-        volumeMusicSlider.setDebug(true);
-        soundMusicSlider.setDebug(true);
-        soundEffectsCheckbox.setDebug(true);
-        musicCheckbox.setDebug(true);
-        returnButton.setDebug(true);*/
-
 
         options.add(titlePreferences).colspan(2);
         options.row().pad(10,0,0,10);;
@@ -247,6 +247,7 @@ public class MainMenuScreen implements Screen {
 
         stage.addActor(window);
         stage.addActor(options);
+
     }
 
     @Override
