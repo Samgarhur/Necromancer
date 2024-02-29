@@ -30,6 +30,7 @@ public class GameScreen implements Screen {
     private Stage stage;
     private Character character;
     private ScrollHandler scrollHandler;
+    private Label gameOverLabel;
 
     OrthographicCamera camera;
 
@@ -38,9 +39,7 @@ public class GameScreen implements Screen {
     // Per obtenir el batch de l'stage
     private Batch batch;
     private TextureRegion liveIcon;
-
-
-
+    boolean isGameOver=false;
     private Skin skin;
     Music music;
     AppPreferences preferences = new AppPreferences();
@@ -162,14 +161,27 @@ public class GameScreen implements Screen {
     @Override
     public void show() {
 
+
+            // Crear el texto "Game Over" con la fuente de la skin
+            gameOverLabel = new Label("Game Over", skin);
+            // Establecer la posición del texto en el centro de la pantalla
+            gameOverLabel.setPosition((Settings.GAME_WIDTH - gameOverLabel.getWidth()) / 2, (Settings.GAME_HEIGHT - gameOverLabel.getHeight()) / 2);
+            // Establecer la escala del texto (ajusta según tus necesidades)
+            gameOverLabel.setFontScale(3f);
+            // Establecer la rotación del texto a 90 grados (girado en sentido antihorario)
+            gameOverLabel.setRotation(360f);
+            // Agregar el texto al stage para que se dibuje
+            stage.addActor(gameOverLabel);
+
+
     }
 
     @Override
     public void render(float delta) {
         stage.draw();
         stage.act(delta);
-
-        if (vidas > 0) {
+        if (!isGameOver) {
+            if (vidas > 0) {
             // Dibuixem i actualitzem tots els actors de l'stage
             drawElements();
             drawLife();
@@ -190,16 +202,8 @@ public class GameScreen implements Screen {
                 Gdx.app.log("VIDAS", ""+vidas);
             }
         } else {
+            isGameOver = true; // Establecemos isGameOver como verdadero cuando el juego termina
 
-            // Cargar la fuente desde la skin
-            BitmapFont font = skin.get("font", BitmapFont.class);
-
-            batch.begin();
-            // Dibujar el texto "Game Over" utilizando la fuente de la skin
-            font.draw(batch, "Game Over", Settings.GAME_WIDTH/2,Settings.GAME_HEIGHT/2);
-
-
-            batch.end();
             //Aturem la musica
             AssetManager.GameMusic.stop();
 
@@ -209,9 +213,9 @@ public class GameScreen implements Screen {
             //Si hi mort reporduim el so de mort
             AssetManager.Dead.play();
 
-
-
+         }
         }
+
 
 
     }

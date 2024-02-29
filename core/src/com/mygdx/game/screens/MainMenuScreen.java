@@ -2,13 +2,8 @@ package com.mygdx.game.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Event;
 import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -19,18 +14,13 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Slider;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.ui.Window;
-import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.mygdx.game.Juego;
 import com.mygdx.game.helpers.AssetManager;
-import com.mygdx.game.objects.Background;
 import com.mygdx.game.objects.BackgroundMain;
 import com.mygdx.game.utils.AppPreferences;
 import com.mygdx.game.utils.Settings;
-
-import javax.swing.JWindow;
 
 public class MainMenuScreen implements Screen {
     final Juego game;
@@ -43,7 +33,7 @@ public class MainMenuScreen implements Screen {
     boolean musicEnabled = preferences.isMusicEnabled();
     float musicVolume = preferences.getMusicVolume();
 
-    private Label tittle,titlePreferences,volumeMusicLabel,volumeSoundLabel,musicOnOffLabel,soundOnOffLabel;
+    private Label title,titlePreferences,volumeMusicLabel,volumeSoundLabel,musicOnOffLabel,soundOnOffLabel;
 
 
     public MainMenuScreen(Juego game) {
@@ -73,6 +63,10 @@ public class MainMenuScreen implements Screen {
         // Añade el fondo al escenario
         stage.addActor(background);
         Gdx.input.setInputProcessor(stage);
+        title =new Label("NECROMANCER", skin);
+        title.setFontScale(4F);
+        title.setPosition((Settings.GAME_WIDTH / 2 - title.getWidth() / 2)-300, Settings.GAME_HEIGHT - 200);
+        stage.addActor(title);
 
 
 
@@ -80,7 +74,8 @@ public class MainMenuScreen implements Screen {
         window = new Table(skin);
         window.setBackground("window");
         window.setSize(800, 500);
-        window.setPosition(Settings.GAME_WIDTH / 2 - window.getWidth() / 2, Settings.GAME_HEIGHT / 2 - window.getHeight() / 2);
+        window.setPosition(Settings.GAME_WIDTH / 2 - window.getWidth() / 2, (Settings.GAME_HEIGHT / 2 - window.getHeight() / 2)-100);
+
 
         TextButton playButton = new TextButton("Jugar",skin);
         //playButton.setSize(600,700);
@@ -135,7 +130,7 @@ public class MainMenuScreen implements Screen {
         options.setBackground("window");
         options.setVisible(false);
         options.setSize(800, 500);
-        options.setPosition((Settings.GAME_WIDTH / 2 - window.getWidth() / 2), Settings.GAME_HEIGHT / 2 - window.getHeight() / 2);
+        options.setPosition((Settings.GAME_WIDTH / 2 - window.getWidth() / 2), (Settings.GAME_HEIGHT / 2 - window.getHeight() / 2)-100);
 
 
         //Controles volumen musica

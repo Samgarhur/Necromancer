@@ -55,12 +55,12 @@ public class AssetManager {
         //Carreguem fons del menu principal y del joc
         backgroundMain=new TextureRegion(new Texture(Gdx.files.internal("Background/fondoNegro.jpg")));
         background=new TextureRegion(new Texture(Gdx.files.internal("Background/espacio.png")));
-        background.flip(false,true);
+        //background.flip(false,true);
 
 
         // Carga del icono de vida
         Texture liveIconTexture = new Texture(Gdx.files.internal("Icons/calavera.png"));
-        //liveIconTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+        liveIconTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
 
         TextureRegion liveIcon = new TextureRegion(liveIconTexture);
         liveIcon.flip(false, true);
