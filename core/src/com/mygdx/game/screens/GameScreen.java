@@ -45,6 +45,9 @@ public class GameScreen implements Screen {
     AppPreferences preferences = new AppPreferences();
     boolean musicEnabled = preferences.isMusicEnabled();
     float musicVolume = preferences.getMusicVolume();
+
+    boolean soundsEnabled = preferences.isSoundEffectsEnabled();
+    float soundsVolume = preferences.getSoundVolume();
     public int vidas = 3;
 
 
@@ -161,7 +164,6 @@ public class GameScreen implements Screen {
     @Override
     public void show() {
 
-
             // Crear el texto "Game Over" con la fuente de la skin
             gameOverLabel = new Label("Game Over", skin);
             // Establecer la posición del texto en el centro de la pantalla
@@ -173,7 +175,6 @@ public class GameScreen implements Screen {
             // Agregar el texto al stage para que se dibuje
             stage.addActor(gameOverLabel);
 
-
     }
 
     @Override
@@ -183,12 +184,16 @@ public class GameScreen implements Screen {
         if (!isGameOver) {
             if (vidas > 0) {
             // Dibuixem i actualitzem tots els actors de l'stage
-            drawElements();
+            //drawElements();
             drawLife();
             if (scrollHandler.collides(character)) {
 
                 // Si hi ha hagut col·lisió Reproduïm el so de impacte
-                AssetManager.Impact.play();
+                if(soundsEnabled) {
+                    Long impactSound=AssetManager.Impact.play();
+                    AssetManager.Impact.setVolume(impactSound,soundsVolume);
+
+                }
                 ArrayList<Enemy> enemys = scrollHandler.getEnemys();
                 for (int i = 0; i < enemys.size(); i++) {
                     Enemy enemy = enemys.get(i);
@@ -211,7 +216,13 @@ public class GameScreen implements Screen {
             character.death();
 
             //Si hi mort reporduim el so de mort
-            AssetManager.Dead.play();
+                // Si hi ha hagut col·lisió Reproduïm el so de impacte
+                if(soundsEnabled) {
+                    Long impactSound=AssetManager.Dead.play();
+                    AssetManager.Dead.setVolume(impactSound,soundsVolume);
+
+                }
+
 
          }
         }

@@ -33,6 +33,8 @@ public class MainMenuScreen implements Screen {
     boolean musicEnabled = preferences.isMusicEnabled();
     float musicVolume = preferences.getMusicVolume();
 
+
+
     private Label title,titlePreferences,volumeMusicLabel,volumeSoundLabel,musicOnOffLabel,soundOnOffLabel;
 
 
@@ -153,7 +155,8 @@ public class MainMenuScreen implements Screen {
         soundMusicSlider.addListener( new EventListener() {
             @Override
             public boolean handle(Event event) {
-                game.getPreferences().setSoundVolume(soundMusicSlider.getValue() );
+                float volumeSounds = soundMusicSlider.getValue();
+                game.getPreferences().setSoundVolume(soundMusicSlider.getValue());
                 return false;
             }
         });
