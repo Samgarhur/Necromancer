@@ -12,10 +12,15 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
+import com.mygdx.game.Juego;
 import com.mygdx.game.helpers.AssetManager;
 import com.mygdx.game.helpers.InputHandler;
 import com.mygdx.game.objects.Character;
@@ -28,15 +33,18 @@ import java.util.ArrayList;
 
 
 public class GameScreen implements Screen {
+    final Juego game;
 
     private Stage stage;
     private Character character;
     private ScrollHandler scrollHandler;
-    private
+    private BitmapFont font;
 
     OrthographicCamera camera;
 
     private ShapeRenderer shapeRenderer;
+
+    public TextButton returnMenuButton;
 
     // Per obtenir el batch de l'stage
     private Batch batch;
@@ -55,7 +63,8 @@ public class GameScreen implements Screen {
 
     private Boolean gameOver = false;
 
-    public GameScreen() {
+    public GameScreen(Juego game) {
+        this.game=game;
 
         //Reproduim la musica desde l'assets manager si esta activada i li posem el volum que tenim a les opcions
         if(musicEnabled) {
@@ -142,6 +151,27 @@ public class GameScreen implements Screen {
     private void drawLife() {
         liveIcon= AssetManager.liveIcon;
 
+        // Itera sobre los íconos de vida en el asset manager
+        for (int i = 0; i < AssetManager.lifeIcons.length; i++) {
+            // Obtén el ícono correspondiente según el índice actual
+            TextureRegion lifeIcon = AssetManager.lifeIcons[i];
+
+            // Si el ícono no es nulo, dibújalo
+            if (lifeIcon != null) {
+
+            // Calcula la posición en la pantalla para cada ícono de vida
+            float iconX = Settings.ICON_STARTX + i * (Settings.ICON_WIDTH + Settings.ICON_PADDING_X);
+            float iconY = Settings.ICON_STARTY;
+
+            // Dibuja el ícono de vida en la posición calculada
+            batch.begin();
+            batch.draw(lifeIcon, iconX, iconY, Settings.ICON_WIDTH, Settings.ICON_HEIGHT);
+            batch.end();
+        }}
+
+
+
+        /*
         // Itera sobre los estados de los íconos de vida
         for (int i = 0; i < AssetManager.lifeStates.length; i++) {
             // Obtén el ícono correspondiente según el estado actual
@@ -155,7 +185,7 @@ public class GameScreen implements Screen {
             batch.begin();
             batch.draw(lifeIcon, iconX, iconY, Settings.ICON_WIDTH, Settings.ICON_HEIGHT);
             batch.end();
-        }
+        }*/
 
     }
 
@@ -178,6 +208,7 @@ public class GameScreen implements Screen {
             // Dibuixem i actualitzem tots els actors de l'stage
             drawElements();
             drawLife();
+
             if (scrollHandler.collides(character)) {
                 // Si hi ha hagut col·lisió Reproduïm el so de impacte
                 if(soundsEnabled) {
@@ -194,6 +225,12 @@ public class GameScreen implements Screen {
                     }
                 }
                 vidas--;
+                // Eliminar el último ícono de vida si aún quedan vidas
+                if (vidas >= 0 && vidas < AssetManager.lifeIcons.length) {
+                    AssetManager.lifeIcons[vidas] = null;
+                }
+
+
                 Gdx.app.log("VIDAS", ""+vidas);
             }
         } else {
@@ -217,16 +254,40 @@ public class GameScreen implements Screen {
         }
         else{
 
+            //Usamos la fuente para el Gameover
             FileHandle fuente =AssetManager.fuente;
-
             // Obtener la fuente de texto de la skin
             BitmapFont font = new BitmapFont(fuente,true);
             font.getData().scale(3f);
 
+            //Asignamos la posicion del texto "Game Over"
+            float textX = (Settings.GAME_WIDTH / 2) - 300;
+            float textY = Settings.GAME_HEIGHT / 2;
 
             batch.begin();
-            font.draw(batch, "Game Over", (Settings.GAME_WIDTH/2)-300, Settings.GAME_HEIGHT/2);
+            font.draw(batch, "Game Over", textX, textY);
             batch.end();
+
+            //Asignamos la posicion del botón debajo del texto
+            float buttonX = textX + 50; //
+            float buttonY = textY + 100; //
+
+
+            // Obtener el estilo de la skin del botón
+            TextButton.TextButtonStyle buttonStyle = skin.get(TextButton.TextButtonStyle.class);
+
+            // Cambiar la fuente del estilo del botón por el que hemos creado antes
+            buttonStyle.font = font;
+
+
+            returnMenuButton = new TextButton("Menu principal",skin);
+            returnMenuButton.getLabel().setFontScale(2f);
+            returnMenuButton.setSize(500,100);
+            returnMenuButton.setPosition(buttonX, buttonY);
+            //returnMenuButton.setDisabled(false);
+            //returnMenuButton.debug();
+
+            stage.addActor(returnMenuButton);
         }
 
 
@@ -235,6 +296,7 @@ public class GameScreen implements Screen {
 
     @Override
     public void resize(int width, int height) {
+        stage.getViewport().update(width,height);
 
     }
 
@@ -264,4 +326,13 @@ public class GameScreen implements Screen {
     public Character getCharacter() {
         return character;
     }
+    public TextButton getReturnMenuButton() {
+        return returnMenuButton;
+    }
+
+    public Juego getGame() {
+        return this.game;
+    }
+
+
 }

@@ -1,5 +1,6 @@
 package com.mygdx.game.objects;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -59,10 +60,11 @@ public class Character extends Actor {
                 isAttack=false;
             }
         }
-        if(isDead){
+        else if(isDead){
             currentFrame=deadAnimation.getKeyFrame(stateTime,false);
             if(deadAnimation.isAnimationFinished(stateTime)){
                 //isDead=false;
+
             }
         }
         else {
@@ -76,7 +78,7 @@ public class Character extends Actor {
         super.act(delta);
         stateTime +=delta;
 
-        // Movem l'Spacecraft depenent de la direcció controlant que no surti de la pantalla
+        // Movem el character depenent de la direcció controlant que no surti de la pantalla
         switch (direction) {
             case CHARACTER_UP:
                 if (this.position.y - Settings.CHARACTER_VELOCITY  * delta >= 0) {
@@ -157,6 +159,8 @@ public class Character extends Actor {
         if(!isDead){
             this.isDead=true;
             this.stateTime=0;
+            //Anulamos el inputhandler para que no podamos hacer acciones
+            //Gdx.input.setInputProcessor(null);
         }
 
     }

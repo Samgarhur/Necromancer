@@ -62,7 +62,23 @@ public class AssetManager {
         background=new TextureRegion(new Texture(Gdx.files.internal("Background/espacio.png")));
         //background.flip(false,true);
 
+        // Inicialización de los iconos de vida con tres elementos
+        lifeIcons = new TextureRegion[3];
 
+        // Carga del icono de vida
+        Texture liveIconTexture = new Texture(Gdx.files.internal("Icons/calavera.png"));
+        liveIconTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+
+        liveIcon = new TextureRegion(liveIconTexture);
+        liveIcon.flip(false, true);
+
+
+        // Asignación del mismo ícono de vida a los tres elementos de la matriz
+        for (int i = 0; i < 3; i++) {
+            lifeIcons[i] = liveIcon;
+        }
+
+/*
         // Carga del icono de vida
         Texture liveIconTexture = new Texture(Gdx.files.internal("Icons/calavera.png"));
         liveIconTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
@@ -73,9 +89,12 @@ public class AssetManager {
         TextureRegion emptyLiveIcon = new TextureRegion(new Texture(Gdx.files.internal("Icons/calavera_vacia.png")));
         emptyLiveIcon.flip(false, true);
 
+
         // Inicialización de los iconos de vida y sus estados
-        lifeIcons = new TextureRegion[]{emptyLiveIcon, liveIcon};
-        lifeStates = new int[]{1, 1, 1}; // Representa tres iconos de vida llenos al principio
+        lifeIcons = new TextureRegion[]{liveIcon};
+        lifeStates = new int[]{0, 0, 0}; // Representa tres iconos de vida llenos al principio
+
+ */
 
 
         // Carreguem les textures i li apliquem el mètode d'escalat 'nearest'
