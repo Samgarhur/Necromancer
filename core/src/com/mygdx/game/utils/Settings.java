@@ -26,7 +26,7 @@ public class Settings {
 
     ////////////////////////////////////////ENEMIES//////////////////////////////////////////
 
-    // Rang de valors per canviar la mida de l'asteroide
+    // Rang de valors per canviar la mida dels enemics
     public static final float MAX_ENEMY = 8f;
     public static final float MIN_ENEMY = 4f;
 
@@ -35,6 +35,13 @@ public class Settings {
     public static final int ENEMY_SPEED_MAX = -300;
     public static final int ENEMY_GAP = 150;
     public static final int ENEMY_RESET = 300;
+
+    ////////////////////////////////////////SHOOTS//////////////////////////////////////////
+
+    public static final float SHOOT_VELOCITY = 300;
+    public static final int SHOOT_WIDTH =100;
+    public static final int SHOOT_HEIGHT =150;
+
 
 
     public static final int BG_SPEED = -400;

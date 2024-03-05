@@ -81,12 +81,12 @@ public class AssetManager {
         for (int i = 0; i < 3; i++) {
             lifeIcons[i] = liveIcon;
         }
+
         // Carreguem les textures del shoot i li apliquem el mètode d'escalat 'nearest'
         shoot = new TextureRegion[4];
         for (int i = 0; i < shoot.length; i++) {
             shootSheet = new Texture(Gdx.files.internal("Shoot/bolt"+(i+1)+".png"));
-
-            shoot[i] = new TextureRegion(shootSheet, 48, 32, 64, 64);
+            shoot[i] = new TextureRegion(shootSheet, 0, 0, 64, 64);
             shoot[i].flip(true, true);
 
         }

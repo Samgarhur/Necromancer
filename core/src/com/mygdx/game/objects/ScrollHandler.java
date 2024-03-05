@@ -1,6 +1,7 @@
 package com.mygdx.game.objects;
 
 import com.badlogic.gdx.scenes.scene2d.Group;
+import com.badlogic.gdx.utils.TimeUtils;
 import com.mygdx.game.utils.Methods;
 import com.mygdx.game.utils.Settings;
 
@@ -15,8 +16,12 @@ public class ScrollHandler extends Group {
     // Enemics
     int numEnemy;
     ArrayList<Enemy> enemys;
+
     Random r;
     private boolean isRunning = true; // Variable para controlar si el ScrollHandler está en funcionamiento
+
+    private long tiempoDisparos=300000000L;
+    private long tiempoUltimoDisparo;
 
 
     public ScrollHandler() {
@@ -29,6 +34,7 @@ public class ScrollHandler extends Group {
             //Afegim els fons (actors) al grup
             addActor(bg);
             addActor(bg_back);
+
 
 
             // Creem l'objecte random
@@ -62,6 +68,7 @@ public class ScrollHandler extends Group {
 
 
     }
+
 
     public void act(float delta) {
         super.act(delta);
@@ -109,6 +116,18 @@ public class ScrollHandler extends Group {
         return enemys;
     }
 
+    public boolean puedeDisparar(){
+        long tiempoActual= TimeUtils.nanoTime();
+        return (tiempoActual-tiempoUltimoDisparo)>tiempoDisparos;
+    }
 
 
+    public void createShoot(Character character) {
+        if (puedeDisparar()) {
+            float characterX = character.getX() + character.getWidth() / 2;
+            float characterY = character.getY() + character.getHeight() / 2;
+            Shoot shoot = new Shoot(characterX, characterY-40, Settings.SHOOT_WIDTH, Settings.SHOOT_HEIGHT, Settings.SHOOT_VELOCITY);
+            addActor(shoot);
+        }
+    }
 }
