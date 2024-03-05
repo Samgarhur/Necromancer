@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Intersector;
+import com.badlogic.gdx.math.Rectangle;
 import com.mygdx.game.helpers.AssetManager;
 import com.mygdx.game.utils.Methods;
 import com.mygdx.game.utils.Settings;
@@ -26,7 +27,7 @@ public class Enemy extends Scrollable{
     public void act(float delta) {
         super.act(delta);
         runTime += delta;
-        // Actualitzem el cercle de col·lisions (punt central de l'asteroide i del radi).
+        // Actualitzem el cercle de col·lisions (punt central de l'enemic i del radi).
         collisionCircle.set(position.x + width / 2.0f, position.y + width / 2.0f, width / 2.0f);
 
     }
@@ -60,5 +61,10 @@ public class Enemy extends Scrollable{
     public float getRunTime() {
 
         return runTime;
+    }
+
+    public Circle getCollisionCircle() {
+
+        return collisionCircle;
     }
 }

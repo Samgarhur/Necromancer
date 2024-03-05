@@ -17,6 +17,7 @@ public class AssetManager {
     public static Texture characterSheet;
 
     public static Texture enemySheet;
+    public static Texture shootSheet;
 
     // Iconos de vida
     public static TextureRegion[] lifeIcons;
@@ -43,6 +44,9 @@ public class AssetManager {
 
     public static TextureRegion[] enemy;
     public static Animation<TextureRegion> enemyAnimation;
+
+    public static TextureRegion[] shoot;
+    public static Animation<TextureRegion> shootAnimation;
     public static Music MainMenuMusic;
     public static Music GameMusic;
     public static Sound Impact;
@@ -77,27 +81,20 @@ public class AssetManager {
         for (int i = 0; i < 3; i++) {
             lifeIcons[i] = liveIcon;
         }
+        // Carreguem les textures del shoot i li apliquem el mètode d'escalat 'nearest'
+        shoot = new TextureRegion[4];
+        for (int i = 0; i < shoot.length; i++) {
+            shootSheet = new Texture(Gdx.files.internal("Shoot/bolt"+(i+1)+".png"));
 
-/*
-        // Carga del icono de vida
-        Texture liveIconTexture = new Texture(Gdx.files.internal("Icons/calavera.png"));
-        liveIconTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+            shoot[i] = new TextureRegion(shootSheet, 48, 32, 64, 64);
+            shoot[i].flip(true, true);
 
-        TextureRegion liveIcon = new TextureRegion(liveIconTexture);
-        liveIcon.flip(false, true);
-
-        TextureRegion emptyLiveIcon = new TextureRegion(new Texture(Gdx.files.internal("Icons/calavera_vacia.png")));
-        emptyLiveIcon.flip(false, true);
-
-
-        // Inicialización de los iconos de vida y sus estados
-        lifeIcons = new TextureRegion[]{liveIcon};
-        lifeStates = new int[]{0, 0, 0}; // Representa tres iconos de vida llenos al principio
-
- */
+        }
+        shootAnimation = new Animation<>(0.07f, shoot);
 
 
-        // Carreguem les textures i li apliquem el mètode d'escalat 'nearest'
+
+        // Carreguem les textures de l'enemy  i li apliquem el mètode d'escalat 'nearest'
         enemySheet = new Texture(Gdx.files.internal("Enemy/Cacodaemon_Sheet.png"));
         enemySheet .setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
 
@@ -112,7 +109,7 @@ public class AssetManager {
         enemyAnimation = new Animation<>(0.07f, enemy);
 
 
-        // Carreguem les textures i li apliquem el mètode d'escalat 'nearest'
+        // Carreguem les textures del character i li apliquem el mètode d'escalat 'nearest'
         characterSheet = new Texture(Gdx.files.internal("Necromancer/Necromancer_Sheet.png"));
         characterSheet.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
 

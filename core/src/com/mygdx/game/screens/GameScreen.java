@@ -246,9 +246,7 @@ public class GameScreen implements Screen {
                 if(soundsEnabled) {
                     Long impactSound=AssetManager.Dead.play();
                     AssetManager.Dead.setVolume(impactSound,soundsVolume);
-
                 }
-
          }
         }
         else{
