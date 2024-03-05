@@ -24,7 +24,6 @@ public class InputHandler implements InputProcessor {
         this.screen = screen;
         character = screen.getCharacter();
         stage= screen.getStage();
-        returnMenuButton = screen.getReturnMenuButton(); // Obtener referencia al botón del GameScreen
     }
 
     @Override
@@ -74,8 +73,7 @@ public class InputHandler implements InputProcessor {
         Vector3 touchPoint = new Vector3(screenX, screenY, 0);
         stage.getCamera().unproject(touchPoint);
         // Verifica si el punto de contacto está dentro de los límites del botón
-        // Verificar si las coordenadas del toque están dentro del botón
-        if (returnMenuButton.getX() < touchPoint.x && touchPoint.x < returnMenuButton.getX() + returnMenuButton.getWidth()
+        if (returnMenuButton != null && returnMenuButton.getX() < touchPoint.x && touchPoint.x < returnMenuButton.getX() + returnMenuButton.getWidth()
                 && returnMenuButton.getY() < touchPoint.y && touchPoint.y < returnMenuButton.getY() + returnMenuButton.getHeight()) {
             // El botón ha sido presionado, realiza la acción correspondiente
             Gdx.app.log("Boton volver al menu principal", "pulsado");
@@ -128,5 +126,8 @@ public class InputHandler implements InputProcessor {
     @Override
     public boolean scrolled(float amountX, float amountY) {
         return false;
+    }
+    public void setReturnMenuButton(TextButton returnMenuButton) {
+        this.returnMenuButton = returnMenuButton;
     }
 }

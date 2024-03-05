@@ -12,7 +12,6 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -279,6 +278,8 @@ public class GameScreen implements Screen {
             // Cambiar la fuente del estilo del botón por el que hemos creado antes
             buttonStyle.font = font;
 
+            Gdx.input.setInputProcessor(stage);
+
 
             returnMenuButton = new TextButton("Menu principal",skin);
             returnMenuButton.getLabel().setFontScale(2f);
@@ -286,6 +287,13 @@ public class GameScreen implements Screen {
             returnMenuButton.setPosition(buttonX, buttonY);
             //returnMenuButton.setDisabled(false);
             //returnMenuButton.debug();
+            returnMenuButton.addListener(new ClickListener() {
+                @Override
+                public void clicked(InputEvent event, float x, float y) {
+                    game.setScreen(new MainMenuScreen(game));
+
+                }
+            });
 
             stage.addActor(returnMenuButton);
         }
@@ -333,6 +341,4 @@ public class GameScreen implements Screen {
     public Juego getGame() {
         return this.game;
     }
-
-
 }
