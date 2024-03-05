@@ -278,6 +278,7 @@ public class GameScreen implements Screen {
             // Cambiar la fuente del estilo del botón por el que hemos creado antes
             buttonStyle.font = font;
 
+            //Cambiamos el control para que no lo gestione el inputhandler y no se pueda usar el personaje
             Gdx.input.setInputProcessor(stage);
 
 
