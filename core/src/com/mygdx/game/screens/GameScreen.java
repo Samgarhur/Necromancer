@@ -207,7 +207,7 @@ public class GameScreen implements Screen {
             // Dibuixem i actualitzem tots els actors de l'stage
             drawElements();
             drawLife();
-                // Verificar si el juego no ha terminado y el personaje está atacando
+                // Verificar si el el personaje esta atacando
                 if (character.isAttack) {
                     // Crear un disparo desde el ScrollHandler
                     scrollHandler.createShoot(character);

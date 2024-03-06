@@ -20,7 +20,7 @@ public class ScrollHandler extends Group {
     Random r;
     private boolean isRunning = true; // Variable para controlar si el ScrollHandler está en funcionamiento
 
-    private long tiempoDisparos=300000000L;
+    private long tiempoEntreDisparos = 500000000; // Medio segundo (en milisegundos)
     private long tiempoUltimoDisparo;
 
 
@@ -34,7 +34,7 @@ public class ScrollHandler extends Group {
             //Afegim els fons (actors) al grup
             addActor(bg);
             addActor(bg_back);
-
+            tiempoUltimoDisparo = TimeUtils.nanoTime();
 
 
             // Creem l'objecte random
@@ -117,13 +117,14 @@ public class ScrollHandler extends Group {
     }
 
     public boolean puedeDisparar(){
-        long tiempoActual= TimeUtils.nanoTime();
-        return (tiempoActual-tiempoUltimoDisparo)>tiempoDisparos;
+        float tiempoActual= TimeUtils.nanoTime();
+        return (tiempoActual-tiempoUltimoDisparo)> tiempoEntreDisparos;
     }
 
 
     public void createShoot(Character character) {
         if (puedeDisparar()) {
+            tiempoUltimoDisparo = TimeUtils.nanoTime();
             float characterX = character.getX() + character.getWidth() / 2;
             float characterY = character.getY() + character.getHeight() / 2;
             Shoot shoot = new Shoot(characterX, characterY-40, Settings.SHOOT_WIDTH, Settings.SHOOT_HEIGHT, Settings.SHOOT_VELOCITY);
