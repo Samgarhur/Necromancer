@@ -50,6 +50,7 @@ public class AssetManager {
     public static Music MainMenuMusic;
     public static Music GameMusic;
     public static Sound Impact;
+    public static Sound ImpactShoot;
     public static Sound Dead;
     public static FileHandle fuente;
 
@@ -157,8 +158,11 @@ public class AssetManager {
         GameMusic = Gdx.audio.newMusic((Gdx.files.internal("Music/Points.mp3")));
         GameMusic.setLooping(true);
 
-        //Carreguem el so cuan impactem
+        //Carreguem el so cuan impacta el character amb el enemys
         Impact= Gdx.audio.newSound((Gdx.files.internal("Sounds/Impact.wav")));
+
+        ////Carreguem el so cuan impacten els shoots amb el enemys
+        ImpactShoot= Gdx.audio.newSound((Gdx.files.internal("Sounds/ImpactEnemy.wav")));
 
         //Carreguem el so cuan el character mor
         Dead= Gdx.audio.newSound((Gdx.files.internal("Sounds/Dead.wav")));

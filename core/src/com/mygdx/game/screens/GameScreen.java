@@ -238,8 +238,8 @@ public class GameScreen implements Screen {
                 }
                 if (scrollHandler.collidesEnemy()) {
                     if (soundsEnabled) {
-                        Long impactSound = AssetManager.Impact.play();
-                        AssetManager.Impact.setVolume(impactSound, soundsVolume);
+                        Long impactSound = AssetManager.ImpactShoot.play();
+                        AssetManager.ImpactShoot.setVolume(impactSound, soundsVolume);
                     }
                     puntuacion+=10;
                     Gdx.app.log("Puntuacion", "" + puntuacion);
@@ -255,7 +255,6 @@ public class GameScreen implements Screen {
                 //Reproduim la animacio de cuan el caracter es mor
                 character.death();
 
-                //Si hi mort reporduim el so de mort
                 // Si hi ha hagut col·lisió Reproduïm el so de impacte
                 if (soundsEnabled) {
                     Long impactSound = AssetManager.Dead.play();
