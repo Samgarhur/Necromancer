@@ -36,12 +36,17 @@ import java.util.ArrayList;
 public class GameScreen implements Screen {
     final Juego game;
 
+
+    FileHandle fuente;
+
     private Stage stage;
     private Character character;
     private ScrollHandler scrollHandler;
     private BitmapFont font;
 
     OrthographicCamera camera;
+    public ArrayList<Enemy> enemys;
+    public Enemy enemy;
 
     private ShapeRenderer shapeRenderer;
 
@@ -60,6 +65,7 @@ public class GameScreen implements Screen {
     boolean soundsEnabled = preferences.isSoundEffectsEnabled();
     float soundsVolume = preferences.getSoundVolume();
     public int vidas = 3;
+    public int puntuacion= 0;
 
 
     public GameScreen(Juego game) {
@@ -73,6 +79,9 @@ public class GameScreen implements Screen {
         }
         ;
         skin = new Skin(Gdx.files.internal("Skin/star-soldier-ui.json"));
+
+        //Inicializamos la fuente para los textos
+        fuente = AssetManager.fuente;
 
         // Creem el ShapeRenderer
         shapeRenderer = new ShapeRenderer();
@@ -175,6 +184,17 @@ public class GameScreen implements Screen {
 
     }
 
+    private void drawScore() {
+        // Obtener la fuente de texto de la skin
+        BitmapFont fontScore = new BitmapFont(fuente, true);
+        fontScore.getData().scale(1f);
+
+        batch.begin();
+        fontScore.draw(batch, "Score: "+puntuacion, Settings.SCORE_STARTX, Settings.SCORE_STARTY);
+        batch.end();
+
+    }
+
 
     @Override
     public void show() {
@@ -189,8 +209,9 @@ public class GameScreen implements Screen {
         if (!isGameOver) {
             if (vidas > 0) {
                 // Dibuixem i actualitzem tots els actors de l'stage
-                drawElements();
+                //drawElements();
                 drawLife();
+                drawScore();
                 // Verificar si el el personaje esta atacando
                 if (character.isAttack) {
                     // Crear un disparo desde el ScrollHandler
@@ -207,21 +228,23 @@ public class GameScreen implements Screen {
                         Long impactSound = AssetManager.Impact.play();
                         AssetManager.Impact.setVolume(impactSound, soundsVolume);
                     }
-                    ArrayList<Enemy> enemys = scrollHandler.getEnemys();
-                    for (int i = 0; i < enemys.size(); i++) {
-                        Enemy enemy = enemys.get(i);
-                        if (enemy.collides(character)) {
-                            // Eliminar el enemy de la lista y del escenario
-                            scrollHandler.removeEnemy(i);
-                            break; // Salir del bucle una vez eliminado el enemy
-                        }
-                    }
+
                     vidas--;
                     // Eliminar el último ícono de vida si aún quedan vidas
                     if (vidas >= 0 && vidas < AssetManager.lifeIcons.length) {
                         AssetManager.lifeIcons[vidas] = null;
                     }
                     Gdx.app.log("VIDAS", "" + vidas);
+                }
+                if (scrollHandler.collidesEnemy()) {
+                    if (soundsEnabled) {
+                        Long impactSound = AssetManager.Impact.play();
+                        AssetManager.Impact.setVolume(impactSound, soundsVolume);
+                    }
+                    puntuacion+=10;
+                    Gdx.app.log("Puntuacion", "" + puntuacion);
+
+
                 }
             } else {
                 isGameOver = true; // Establecemos isGameOver como verdadero cuando el juego termina
@@ -241,8 +264,8 @@ public class GameScreen implements Screen {
             }
         } else {
 
-            //Usamos la fuente para el Gameover
-            FileHandle fuente = AssetManager.fuente;
+
+
             // Obtener la fuente de texto de la skin
             BitmapFont font = new BitmapFont(fuente, true);
             font.getData().scale(3f);

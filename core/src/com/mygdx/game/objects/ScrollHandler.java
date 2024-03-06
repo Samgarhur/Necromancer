@@ -17,6 +17,8 @@ public class ScrollHandler extends Group {
     // Enemics
     int numEnemy;
     ArrayList<Enemy> enemys;
+
+    ArrayList<Shoot> shoots=new ArrayList<>();
     Shoot shoot;
 
     Random r;
@@ -97,37 +99,43 @@ public class ScrollHandler extends Group {
     }
 
     public boolean collides(Character character) {
-
         // Comprovem les col·lisions entre cada enemy i el character
         for (Enemy enemy : enemys) {
             if (enemy.collides(character)) {
+                removeEnemy(enemy);
                 return true;
             }
         }
         return false;
     }
 
-    public boolean collidesEnemy(Enemy enemy) {
-        // Verificar colisión entre cada shoot y el enemigo dado
-        for (Actor actor : getChildren()) {
-            if (actor instanceof Shoot) {
-                Shoot shoot = (Shoot) actor;
-                if (shoot.collides(enemy)) {
-                    // Si hay colisión, eliminar el disparo y devolver verdadero
-                    removeActor(shoot);
-                    return true;
-                }
-            }
+    public boolean collidesEnemy() {
+
+        // Comprovem les col·lisions entre cada shoot i el enemy
+        for (Shoot shoot: shoots) {
+            for (Enemy enemy : enemys) {
+                if (shoot.collides(enemy)) {//Si colisiona el shoot amb el enemy
+                removeEnemy(enemy);//Esborrem el enemy
+                removeShoot(shoot);
+
+                return true;
+            }}
         }
         return false;
     }
 
-    public void removeEnemy(int index) {
-        if (index >= 0 && index < enemys.size()) {
-            Enemy enemy = enemys.get(index);
+    public void removeEnemy(Enemy enemy) {
             enemy.reset((Settings.GAME_WIDTH+50) + Settings.ENEMY_RESET); // Eliminar el enemigo del escenario
-        }
+
     }
+
+    public void removeShoot(Shoot shoot) {
+        removeActor(shoot);
+        shoots.remove(shoot);
+
+    }
+
+
 
     public ArrayList<Enemy> getEnemys() {
         return enemys;
@@ -149,6 +157,8 @@ public class ScrollHandler extends Group {
             float characterX = character.getX() + character.getWidth() / 2;
             float characterY = character.getY() + character.getHeight() / 2;
             shoot = new Shoot(characterX, characterY-40, Settings.SHOOT_WIDTH, Settings.SHOOT_HEIGHT, Settings.SHOOT_VELOCITY);
+            //Guardamos el disparo en una arralist para poder buscarlo despues para borrarlo
+            shoots.add(shoot);
             addActor(shoot);
         }
     }

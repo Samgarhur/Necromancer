@@ -23,6 +23,11 @@ public class Settings {
     public static final float ICON_STARTY = 10;
     public static final float ICON_PADDING_X = 5;
 
+    ////////////////////////////////////////PUNTUACIO//////////////////////////////////////////
+    public static final float SCORE_STARTX = 20;
+    public static final float SCORE_STARTY = 120;
+
+
 
     ////////////////////////////////////////ENEMIES//////////////////////////////////////////
 
