@@ -45,7 +45,7 @@ public class ScrollHandler extends Group {
             r = new Random();
 
             // Comencem amb 3 asteroides
-            numEnemy = 3;
+            numEnemy = 4;
 
             // Creem l'ArrayList
             enemys = new ArrayList<Enemy>();

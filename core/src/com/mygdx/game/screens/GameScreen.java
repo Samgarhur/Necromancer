@@ -270,17 +270,26 @@ public class GameScreen implements Screen {
             BitmapFont font = new BitmapFont(fuente, true);
             font.getData().scale(3f);
 
+            // Obtener la fuente de texto de la skin
+            BitmapFont font1 = new BitmapFont(fuente, true);
+            font1.getData().scale(2f);
+
             //Asignamos la posicion del texto "Game Over"
-            float textX = (Settings.GAME_WIDTH / 2) - 300;
-            float textY = Settings.GAME_HEIGHT / 2;
+            float gameOverX = (Settings.GAME_WIDTH / 2) - 300;
+            float gameOverY = (Settings.GAME_HEIGHT / 2) - 100;
+
+            //Asignamos la posicion del texto "Score"
+            float textScoreX = gameOverX-50;
+            float textScoreY = gameOverY+100;
 
             batch.begin();
-            font.draw(batch, "Game Over", textX, textY);
+            font.draw(batch, "Game Over", gameOverX, gameOverY);
+            font1.draw(batch, "Final Score: "+puntuacion, textScoreX, textScoreY);
             batch.end();
 
             //Asignamos la posicion del botón debajo del texto
-            float buttonX = textX + 50; //
-            float buttonY = textY + 100; //
+            float buttonX = gameOverX + 50; //
+            float buttonY = textScoreY + 100; //
 
 
             // Obtener el estilo de la skin del botón
