@@ -228,6 +228,7 @@ public class GameScreen implements Screen {
                         Long impactSound = AssetManager.Impact.play();
                         AssetManager.Impact.setVolume(impactSound, soundsVolume);
                     }
+                    character.hurt();
 
                     vidas--;
                     // Eliminar el último ícono de vida si aún quedan vidas

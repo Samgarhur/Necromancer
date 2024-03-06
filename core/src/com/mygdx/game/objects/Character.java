@@ -21,13 +21,14 @@ public class Character extends Actor {
     public boolean isAttack;
     public boolean attackAnimation;
     public boolean isDead=false;
+    public boolean isHurt=false;
     TextureRegion currentFrame;
 
     // Paràmetres del character
     private Vector2 position;
     private int width, height;
     private int direction;
-    private Animation<TextureRegion> stayAnimation,atackAnimation,deadAnimation;
+    private Animation<TextureRegion> stayAnimation,atackAnimation,deadAnimation,hurtAnimation;
 
     private float stateTime;
     private Rectangle collisionRect;
@@ -46,6 +47,7 @@ public class Character extends Actor {
 
         stayAnimation= AssetManager.characterAnimationStay;
         atackAnimation= AssetManager.characterAnimationAtack;
+        hurtAnimation= AssetManager.characterAnimationHurt;
         deadAnimation= AssetManager.characterAnimationDead;
         collisionRect = new Rectangle();
 
@@ -61,10 +63,15 @@ public class Character extends Actor {
                 attackAnimation=false;
             }
         }
+        else if(isHurt){
+            currentFrame=hurtAnimation.getKeyFrame(stateTime,false);
+            if(hurtAnimation.isAnimationFinished(stateTime)){
+                isHurt=false;
+            }
+        }
         else if(isDead){
             currentFrame=deadAnimation.getKeyFrame(stateTime,false);
             if(deadAnimation.isAnimationFinished(stateTime)){
-                //isDead=false;
 
             }
         }
@@ -163,6 +170,15 @@ public class Character extends Actor {
             this.stateTime=0;
             //Anulamos el inputhandler para que no podamos hacer acciones
             //Gdx.input.setInputProcessor(null);
+        }
+
+    }
+
+    public void hurt(){
+        if(!isHurt){
+            this.isHurt=true;
+            this.stateTime=0;
+
         }
 
     }
