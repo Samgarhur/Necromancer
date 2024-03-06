@@ -12,6 +12,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -25,6 +26,7 @@ import com.mygdx.game.helpers.InputHandler;
 import com.mygdx.game.objects.Character;
 import com.mygdx.game.objects.Enemy;
 import com.mygdx.game.objects.ScrollHandler;
+import com.mygdx.game.objects.Shoot;
 import com.mygdx.game.utils.AppPreferences;
 import com.mygdx.game.utils.Settings;
 
@@ -48,7 +50,7 @@ public class GameScreen implements Screen {
     // Per obtenir el batch de l'stage
     private Batch batch;
     private TextureRegion liveIcon;
-    boolean isGameOver=false;
+    boolean isGameOver = false;
     private Skin skin;
     Music music;
     AppPreferences preferences = new AppPreferences();
@@ -60,16 +62,16 @@ public class GameScreen implements Screen {
     public int vidas = 3;
 
 
-    private Boolean gameOver = false;
-
     public GameScreen(Juego game) {
-        this.game=game;
+        this.game = game;
+        AssetManager.load();
 
         //Reproduim la musica desde l'assets manager si esta activada i li posem el volum que tenim a les opcions
-        if(musicEnabled) {
+        if (musicEnabled) {
             AssetManager.GameMusic.setVolume(musicVolume);
             AssetManager.GameMusic.play();
-        };
+        }
+        ;
         skin = new Skin(Gdx.files.internal("Skin/star-soldier-ui.json"));
 
         // Creem el ShapeRenderer
@@ -81,7 +83,7 @@ public class GameScreen implements Screen {
         camera.setToOrtho(true);
 
         // Creem el viewport amb les mateixes dimensions que la càmera
-        StretchViewport viewport = new StretchViewport(Settings.GAME_WIDTH, Settings.GAME_HEIGHT , camera);
+        StretchViewport viewport = new StretchViewport(Settings.GAME_WIDTH, Settings.GAME_HEIGHT, camera);
 
         // Creem l'stage i assignem el viewport
         stage = new Stage(viewport);
@@ -119,6 +121,8 @@ public class GameScreen implements Screen {
         // Pintem el character
         shapeRenderer.rect(character.getX(), character.getY(), character.getWidth(), character.getHeight());
 
+
+
         // Recollim tots els  enemics
         ArrayList<Enemy> enemys = scrollHandler.getEnemys();
         Enemy enemy;
@@ -128,19 +132,19 @@ public class GameScreen implements Screen {
             enemy = enemys.get(i);
             switch (i) {
                 case 0:
-                    shapeRenderer.setColor(1,0,0,1);
+                    shapeRenderer.setColor(1, 0, 0, 1);
                     break;
                 case 1:
-                    shapeRenderer.setColor(0,0,1,1);
+                    shapeRenderer.setColor(0, 0, 1, 1);
                     break;
                 case 2:
-                    shapeRenderer.setColor(1,1,0,1);
+                    shapeRenderer.setColor(1, 1, 0, 1);
                     break;
                 default:
-                    shapeRenderer.setColor(1,1,1,1);
+                    shapeRenderer.setColor(1, 1, 1, 1);
                     break;
             }
-            shapeRenderer.circle(enemy.getX() + enemy.getWidth()/2, enemy.getY() + enemy.getWidth()/2, enemy.getWidth()/2);
+            shapeRenderer.circle(enemy.getX() + enemy.getWidth() / 2, enemy.getY() + enemy.getWidth() / 2, enemy.getWidth() / 2);
         }
 
 
@@ -148,7 +152,7 @@ public class GameScreen implements Screen {
     }
 
     private void drawLife() {
-        liveIcon= AssetManager.liveIcon;
+        liveIcon = AssetManager.liveIcon;
 
         // Itera sobre los íconos de vida en el asset manager
         for (int i = 0; i < AssetManager.lifeIcons.length; i++) {
@@ -158,38 +162,18 @@ public class GameScreen implements Screen {
             // Si el ícono no es nulo, dibújalo
             if (lifeIcon != null) {
 
-            // Calcula la posición en la pantalla para cada ícono de vida
-            float iconX = Settings.ICON_STARTX + i * (Settings.ICON_WIDTH + Settings.ICON_PADDING_X);
-            float iconY = Settings.ICON_STARTY;
+                // Calcula la posición en la pantalla para cada ícono de vida
+                float iconX = Settings.ICON_STARTX + i * (Settings.ICON_WIDTH + Settings.ICON_PADDING_X);
+                float iconY = Settings.ICON_STARTY;
 
-            // Dibuja el ícono de vida en la posición calculada
-            batch.begin();
-            batch.draw(lifeIcon, iconX, iconY, Settings.ICON_WIDTH, Settings.ICON_HEIGHT);
-            batch.end();
-        }}
-
-
-
-        /*
-        // Itera sobre los estados de los íconos de vida
-        for (int i = 0; i < AssetManager.lifeStates.length; i++) {
-            // Obtén el ícono correspondiente según el estado actual
-            TextureRegion lifeIcon = AssetManager.lifeIcons[AssetManager.lifeStates[i]];
-
-            // Calcula la posición en la pantalla para cada ícono de vida
-            float iconX = Settings.ICON_STARTX + i * (Settings.ICON_WIDTH + Settings.ICON_PADDING_X);
-            float iconY = Settings.ICON_STARTY;
-
-            // Dibuja el ícono de vida en la posición calculada
-            batch.begin();
-            batch.draw(lifeIcon, iconX, iconY, Settings.ICON_WIDTH, Settings.ICON_HEIGHT);
-            batch.end();
-        }*/
+                // Dibuja el ícono de vida en la posición calculada
+                batch.begin();
+                batch.draw(lifeIcon, iconX, iconY, Settings.ICON_WIDTH, Settings.ICON_HEIGHT);
+                batch.end();
+            }
+        }
 
     }
-
-
-
 
 
     @Override
@@ -204,9 +188,9 @@ public class GameScreen implements Screen {
         stage.act(delta);
         if (!isGameOver) {
             if (vidas > 0) {
-            // Dibuixem i actualitzem tots els actors de l'stage
-            drawElements();
-            drawLife();
+                // Dibuixem i actualitzem tots els actors de l'stage
+                drawElements();
+                drawLife();
                 // Verificar si el el personaje esta atacando
                 if (character.isAttack) {
                     // Crear un disparo desde el ScrollHandler
@@ -217,53 +201,50 @@ public class GameScreen implements Screen {
                     character.isAttack = false;
                 }
 
-            if (scrollHandler.collides(character)) {
-                // Si hi ha hagut col·lisió Reproduïm el so de impacte
-                if(soundsEnabled) {
-                    Long impactSound=AssetManager.Impact.play();
-                    AssetManager.Impact.setVolume(impactSound,soundsVolume);
-                }
-                ArrayList<Enemy> enemys = scrollHandler.getEnemys();
-                for (int i = 0; i < enemys.size(); i++) {
-                    Enemy enemy = enemys.get(i);
-                    if (enemy.collides(character)) {
-                        // Eliminar el enemy de la lista y del escenario
-                        scrollHandler.removeEnemy(i);
-                        break; // Salir del bucle una vez eliminado el enemy
+                if (scrollHandler.collides(character)) {
+                    // Si hi ha hagut col·lisió Reproduïm el so de impacte
+                    if (soundsEnabled) {
+                        Long impactSound = AssetManager.Impact.play();
+                        AssetManager.Impact.setVolume(impactSound, soundsVolume);
                     }
+                    ArrayList<Enemy> enemys = scrollHandler.getEnemys();
+                    for (int i = 0; i < enemys.size(); i++) {
+                        Enemy enemy = enemys.get(i);
+                        if (enemy.collides(character)) {
+                            // Eliminar el enemy de la lista y del escenario
+                            scrollHandler.removeEnemy(i);
+                            break; // Salir del bucle una vez eliminado el enemy
+                        }
+                    }
+                    vidas--;
+                    // Eliminar el último ícono de vida si aún quedan vidas
+                    if (vidas >= 0 && vidas < AssetManager.lifeIcons.length) {
+                        AssetManager.lifeIcons[vidas] = null;
+                    }
+                    Gdx.app.log("VIDAS", "" + vidas);
                 }
-                vidas--;
-                // Eliminar el último ícono de vida si aún quedan vidas
-                if (vidas >= 0 && vidas < AssetManager.lifeIcons.length) {
-                    AssetManager.lifeIcons[vidas] = null;
+            } else {
+                isGameOver = true; // Establecemos isGameOver como verdadero cuando el juego termina
+
+                //Aturem la musica
+                AssetManager.GameMusic.stop();
+
+                //Reproduim la animacio de cuan el caracter es mor
+                character.death();
+
+                //Si hi mort reporduim el so de mort
+                // Si hi ha hagut col·lisió Reproduïm el so de impacte
+                if (soundsEnabled) {
+                    Long impactSound = AssetManager.Dead.play();
+                    AssetManager.Dead.setVolume(impactSound, soundsVolume);
                 }
-
-
-                Gdx.app.log("VIDAS", ""+vidas);
             }
         } else {
-            isGameOver = true; // Establecemos isGameOver como verdadero cuando el juego termina
-
-            //Aturem la musica
-            AssetManager.GameMusic.stop();
-
-            //Reproduim la animacio de cuan el caracter es mor
-            character.death();
-
-            //Si hi mort reporduim el so de mort
-                // Si hi ha hagut col·lisió Reproduïm el so de impacte
-                if(soundsEnabled) {
-                    Long impactSound=AssetManager.Dead.play();
-                    AssetManager.Dead.setVolume(impactSound,soundsVolume);
-                }
-         }
-        }
-        else{
 
             //Usamos la fuente para el Gameover
-            FileHandle fuente =AssetManager.fuente;
+            FileHandle fuente = AssetManager.fuente;
             // Obtener la fuente de texto de la skin
-            BitmapFont font = new BitmapFont(fuente,true);
+            BitmapFont font = new BitmapFont(fuente, true);
             font.getData().scale(3f);
 
             //Asignamos la posicion del texto "Game Over"
@@ -289,9 +270,9 @@ public class GameScreen implements Screen {
             Gdx.input.setInputProcessor(stage);
 
 
-            returnMenuButton = new TextButton("Menu principal",skin);
+            returnMenuButton = new TextButton("Menu principal", skin);
             returnMenuButton.getLabel().setFontScale(2f);
-            returnMenuButton.setSize(500,100);
+            returnMenuButton.setSize(500, 100);
             returnMenuButton.setPosition(buttonX, buttonY);
             //returnMenuButton.setDisabled(false);
             //returnMenuButton.debug();
@@ -300,6 +281,7 @@ public class GameScreen implements Screen {
                 public void clicked(InputEvent event, float x, float y) {
                     game.setScreen(new MainMenuScreen(game));
 
+
                 }
             });
 
@@ -307,12 +289,11 @@ public class GameScreen implements Screen {
         }
 
 
-
     }
 
     @Override
     public void resize(int width, int height) {
-        stage.getViewport().update(width,height);
+        stage.getViewport().update(width, height);
 
     }
 
@@ -330,6 +311,7 @@ public class GameScreen implements Screen {
     public void hide() {
 
     }
+
     @Override
     public void dispose() {
 
@@ -342,6 +324,7 @@ public class GameScreen implements Screen {
     public Character getCharacter() {
         return character;
     }
+
     public TextButton getReturnMenuButton() {
         return returnMenuButton;
     }

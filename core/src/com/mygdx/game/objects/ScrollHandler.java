@@ -1,5 +1,6 @@
 package com.mygdx.game.objects;
 
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.mygdx.game.utils.Methods;
@@ -16,6 +17,7 @@ public class ScrollHandler extends Group {
     // Enemics
     int numEnemy;
     ArrayList<Enemy> enemys;
+    Shoot shoot;
 
     Random r;
     private boolean isRunning = true; // Variable para controlar si el ScrollHandler está en funcionamiento
@@ -105,6 +107,21 @@ public class ScrollHandler extends Group {
         return false;
     }
 
+    public boolean collidesEnemy(Enemy enemy) {
+        // Verificar colisión entre cada shoot y el enemigo dado
+        for (Actor actor : getChildren()) {
+            if (actor instanceof Shoot) {
+                Shoot shoot = (Shoot) actor;
+                if (shoot.collides(enemy)) {
+                    // Si hay colisión, eliminar el disparo y devolver verdadero
+                    removeActor(shoot);
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
     public void removeEnemy(int index) {
         if (index >= 0 && index < enemys.size()) {
             Enemy enemy = enemys.get(index);
@@ -114,6 +131,10 @@ public class ScrollHandler extends Group {
 
     public ArrayList<Enemy> getEnemys() {
         return enemys;
+    }
+
+    public Shoot getShoot() {
+        return shoot;
     }
 
     public boolean puedeDisparar(){
@@ -127,8 +148,10 @@ public class ScrollHandler extends Group {
             tiempoUltimoDisparo = TimeUtils.nanoTime();
             float characterX = character.getX() + character.getWidth() / 2;
             float characterY = character.getY() + character.getHeight() / 2;
-            Shoot shoot = new Shoot(characterX, characterY-40, Settings.SHOOT_WIDTH, Settings.SHOOT_HEIGHT, Settings.SHOOT_VELOCITY);
+            shoot = new Shoot(characterX, characterY-40, Settings.SHOOT_WIDTH, Settings.SHOOT_HEIGHT, Settings.SHOOT_VELOCITY);
             addActor(shoot);
         }
     }
+
+
 }

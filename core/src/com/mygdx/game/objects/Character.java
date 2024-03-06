@@ -19,6 +19,7 @@ public class Character extends Actor {
     public static final int CHARACTER_LEFT = 4;
 
     public boolean isAttack;
+    public boolean attackAnimation;
     public boolean isDead=false;
     TextureRegion currentFrame;
 
@@ -54,10 +55,10 @@ public class Character extends Actor {
     public void draw(Batch batch, float parentAlpha) {
         super.draw(batch, parentAlpha);
 
-        if(isAttack){
+        if(attackAnimation){
             currentFrame=atackAnimation.getKeyFrame(stateTime,false);
             if(atackAnimation.isAnimationFinished(stateTime)){
-                isAttack=false;
+                attackAnimation=false;
             }
         }
         else if(isDead){
@@ -150,6 +151,7 @@ public class Character extends Actor {
     public void atack(){
         if(!isAttack){
             this.isAttack=true;
+            this.attackAnimation=true;
             this.stateTime=0;
         }
 

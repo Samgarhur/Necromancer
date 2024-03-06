@@ -40,7 +40,7 @@ public class Settings {
 
     public static final float SHOOT_VELOCITY = 300;
     public static final int SHOOT_WIDTH =100;
-    public static final int SHOOT_HEIGHT =150;
+    public static final int SHOOT_HEIGHT =180;
 
 
 
