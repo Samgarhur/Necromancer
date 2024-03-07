@@ -15,6 +15,7 @@ public class AssetManager {
     public static Texture enemySheet;
     public static Texture shootSheet;
 
+    public static Texture skullSheet;
     // Iconos de vida
     public static TextureRegion[] lifeIcons;
     public static int[] lifeStates;
@@ -43,6 +44,9 @@ public class AssetManager {
 
     public static TextureRegion[] shoot;
     public static Animation<TextureRegion> shootAnimation;
+
+    public static TextureRegion[] skull;
+    public static Animation<TextureRegion> skullAnimation;
     public static Music MainMenuMusic;
     public static Music GameMusic;
     public static Sound Impact;
@@ -79,7 +83,7 @@ public class AssetManager {
             lifeIcons[i] = liveIcon;
         }
 
-        // Carreguem les textures del shoot i li apliquem el mètode d'escalat 'nearest'
+        // Carreguem les textures del shoot
         shoot = new TextureRegion[4];
         for (int i = 0; i < shoot.length; i++) {
             shootSheet = new Texture(Gdx.files.internal("Shoot/bolt"+(i+1)+".png"));
@@ -88,6 +92,16 @@ public class AssetManager {
 
         }
         shootAnimation = new Animation<>(0.07f, shoot);
+
+        // Carreguem les textures de Skull
+        skull = new TextureRegion[4];
+        for (int i = 0; i < skull.length; i++) {
+            skullSheet = new Texture(Gdx.files.internal("Skull/skull"+(i)+".png"));
+            skull[i] = new TextureRegion(skullSheet, 0, 0, 15,16);
+            skull[i].flip(true, true);
+
+        }
+        skullAnimation = new Animation<>(0.2f, skull);
 
 
 
@@ -172,6 +186,7 @@ public class AssetManager {
         GameMusic.dispose();
         MainMenuMusic.dispose();
         Impact.dispose();
+        ImpactShoot.dispose();
         Dead.dispose();
 
 

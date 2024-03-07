@@ -43,6 +43,15 @@ public class Settings {
     public static final int ENEMY_GAP = 150;
     public static final int ENEMY_RESET = 300;
 
+    ////////////////////////////////////////SKULLS//////////////////////////////////////////
+
+    public static final float SKULL_VELOCITY = -200;
+    public static final int SKULL_WIDTH =60;
+    public static final int SKULL_HEIGHT =60;
+    public static final int SKULL_RESET = 300;
+
+
+
     ////////////////////////////////////////SHOOTS//////////////////////////////////////////
 
     public static final float SHOOT_VELOCITY = 300;

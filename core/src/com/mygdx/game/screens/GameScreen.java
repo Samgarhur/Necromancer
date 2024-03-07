@@ -27,6 +27,7 @@ import com.mygdx.game.objects.Character;
 import com.mygdx.game.objects.Enemy;
 import com.mygdx.game.objects.ScrollHandler;
 import com.mygdx.game.objects.Shoot;
+import com.mygdx.game.objects.Skull;
 import com.mygdx.game.utils.AppPreferences;
 import com.mygdx.game.utils.Settings;
 
@@ -134,6 +135,9 @@ public class GameScreen implements Screen {
         // Pintem el character
         shapeRenderer.rect(character.getX(), character.getY(), character.getWidth(), character.getHeight());
 
+        Skull skull = scrollHandler.getSkull();
+        shapeRenderer.circle(skull.getX() + skull.getWidth() / 2, skull.getY() + skull.getHeight() / 2, (skull.getWidth() / 2)+100);
+
 
 
         // Recollim tots els  enemics
@@ -224,8 +228,6 @@ public class GameScreen implements Screen {
                 if (character.isAttack) {
                     // Crear un disparo desde el ScrollHandler
                     scrollHandler.createShoot(character);
-
-
                     // Actualizar el estado de ataque del personaje
                     character.isAttack = false;
                 }
@@ -245,6 +247,22 @@ public class GameScreen implements Screen {
                     }
                     Gdx.app.log("VIDAS", "" + vidas);
                 }
+                if (scrollHandler.collidesSkull(character)) {
+                    // Si hi ha hagut col·lisió Reproduïm el so de impacte
+                    if (soundsEnabled) {
+                        //Long impactSound = AssetManager.Impact.play();
+                        //AssetManager.Impact.setVolume(impactSound, soundsVolume);
+                    }
+                    if(vidas<3){
+                        vidas++;
+                        AssetManager.lifeIcons[vidas-1] = AssetManager.liveIcon;
+                        Gdx.app.log("VIDAS", "" + vidas);
+                    }
+                    else if(vidas==3){
+                        puntuacion+=10;
+
+                    }
+                }
                 if (scrollHandler.collidesEnemy()) {
                     if (soundsEnabled) {
                         Long impactSound = AssetManager.ImpactShoot.play();
@@ -252,7 +270,6 @@ public class GameScreen implements Screen {
                     }
                     puntuacion+=10;
                     Gdx.app.log("Puntuacion", "" + puntuacion);
-
 
                 }
             } else {
