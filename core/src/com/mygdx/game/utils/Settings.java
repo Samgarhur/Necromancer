@@ -39,7 +39,7 @@ public class Settings {
 
     // Configuració scrollable
     public static final int ENEMY_SPEED_MIN = -150;
-    public static final int ENEMY_SPEED_MAX = -600;
+    public static final int ENEMY_SPEED_MAX = -400;
     public static final int ENEMY_GAP = 150;
     public static final int ENEMY_RESET = 300;
 

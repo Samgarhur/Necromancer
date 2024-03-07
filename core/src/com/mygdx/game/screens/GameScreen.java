@@ -248,10 +248,10 @@ public class GameScreen implements Screen {
                     Gdx.app.log("VIDAS", "" + vidas);
                 }
                 if (scrollHandler.collidesSkull(character)) {
-                    // Si hi ha hagut col·lisió Reproduïm el so de impacte
+                    // Si hi ha hagut col·lisió Reproduïm el so de agafar una vida
                     if (soundsEnabled) {
-                        //Long impactSound = AssetManager.Impact.play();
-                        //AssetManager.Impact.setVolume(impactSound, soundsVolume);
+                        Long lifeSound = AssetManager.Life.play();
+                        AssetManager.Life.setVolume(lifeSound, soundsVolume);
                     }
                     if(vidas<3){
                         vidas++;
