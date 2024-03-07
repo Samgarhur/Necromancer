@@ -7,6 +7,7 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.mygdx.game.objects.Power;
 
 public class AssetManager {
     // Sprite Sheet
@@ -16,6 +17,7 @@ public class AssetManager {
     public static Texture shootSheet;
 
     public static Texture skullSheet;
+    public static Texture powerSheet;
     // Iconos de vida
     public static TextureRegion[] lifeIcons;
     public static int[] lifeStates;
@@ -47,12 +49,16 @@ public class AssetManager {
 
     public static TextureRegion[] skull;
     public static Animation<TextureRegion> skullAnimation;
+
+    public static TextureRegion[] power;
+    public static Animation<TextureRegion> powerAnimation;
     public static Music MainMenuMusic;
     public static Music GameMusic;
     public static Sound Impact;
     public static Sound ImpactShoot;
     public static Sound Dead;
     public static Sound Life;
+    public static Sound Power;
     public static FileHandle fuente;
 
 
@@ -103,6 +109,20 @@ public class AssetManager {
 
         }
         skullAnimation = new Animation<>(0.2f, skull);
+
+        // Carreguem les textures del power  i li apliquem el mètode d'escalat 'nearest'
+        powerSheet = new Texture(Gdx.files.internal("Power/Power.png"));
+        powerSheet.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
+
+        // Carreguem les textures del power
+        power = new TextureRegion[5];
+        for (int i = 0; i < power.length; i++) {
+
+            power[i] = new TextureRegion(powerSheet, i*192, 0, 192,192);
+            power[i].flip(true, true);
+
+        }
+        powerAnimation = new Animation<>(0.09f, power);
 
 
 
@@ -172,6 +192,9 @@ public class AssetManager {
         //Carreguem el so cuan el character agafa una vida
         Life= Gdx.audio.newSound((Gdx.files.internal("Sounds/Life.wav")));
 
+        //Carreguem el so cuan el character agafa una PowerUp
+        Power= Gdx.audio.newSound((Gdx.files.internal("Sounds/Power.wav")));
+
         //Carreguem el so cuan impacta el character amb el enemys
         Impact= Gdx.audio.newSound((Gdx.files.internal("Sounds/Impact.wav")));
 
@@ -189,6 +212,8 @@ public class AssetManager {
         enemySheet.dispose();
         GameMusic.dispose();
         MainMenuMusic.dispose();
+        Life.dispose();
+        Power.dispose();
         Impact.dispose();
         ImpactShoot.dispose();
         Dead.dispose();

@@ -51,6 +51,15 @@ public class Settings {
     public static final int SKULL_RESET = 300;
 
 
+    ////////////////////////////////////////Power//////////////////////////////////////////
+
+    public static final float POWER_VELOCITY = -260;
+    public static final int POWER_WIDTH =100;
+    public static final int POWER_HEIGHT =100;
+    public static final int POWER_RESET = 400;
+
+
+
 
     ////////////////////////////////////////SHOOTS//////////////////////////////////////////
 

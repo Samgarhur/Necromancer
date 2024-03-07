@@ -263,6 +263,14 @@ public class GameScreen implements Screen {
 
                     }
                 }
+                if (scrollHandler.collidesPower(character)) {
+                    // Si hi ha hagut col·lisió Reproduïm el so de agafar una vida
+                    if (soundsEnabled) {
+                        Long powerSound = AssetManager.Power.play();
+                        AssetManager.Power.setVolume(powerSound, soundsVolume+20);
+                    }
+
+                }
                 if (scrollHandler.collidesEnemy()) {
                     if (soundsEnabled) {
                         Long impactSound = AssetManager.ImpactShoot.play();

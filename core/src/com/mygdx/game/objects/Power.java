@@ -10,12 +10,13 @@ import com.mygdx.game.utils.Settings;
 
 import java.util.Random;
 
-public class Skull extends Scrollable{
+public class Power extends Scrollable{
 
     private float runTime;
     private Circle collisionCircle;
 
-    public Skull(float x, float y, float width, float height, float velocity) {
+
+    public Power(float x, float y, float width, float height, float velocity) {
         super(x, y, width, height, velocity);
         runTime = Methods.randomFloat(0,1);
         collisionCircle = new Circle();
@@ -33,7 +34,7 @@ public class Skull extends Scrollable{
     @Override
     public void draw(Batch batch, float parentAlpha) {
         super.draw(batch, parentAlpha);
-        batch.draw((TextureRegion) AssetManager.skullAnimation.getKeyFrame(runTime,true), position.x, position.y, width, height);
+        batch.draw((TextureRegion) AssetManager.powerAnimation.getKeyFrame(runTime,true), position.x, position.y, width, height);
     }
 
     // Retorna true si hi ha col·lisió amb el character
@@ -47,10 +48,8 @@ public class Skull extends Scrollable{
 
     public void reset(float newX) {
         super.reset(newX+700);
-        // La posició serà un valor aleatori entre 0 i l'alçada de l'aplicació menys l'alçada del enemic
+        // La posició serà un valor aleatori entre 0 i l'alçada de l'aplicació menys l'alçada del power
         position.y = new Random().nextInt(Settings.GAME_HEIGHT - Settings.SKULL_HEIGHT);
 
     }
-
-
 }

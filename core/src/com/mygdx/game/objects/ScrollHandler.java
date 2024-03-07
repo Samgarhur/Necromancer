@@ -21,6 +21,8 @@ public class ScrollHandler extends Group {
     ArrayList<Skull> skulls;
     Skull skull;
 
+    Power power;
+
     ArrayList<Shoot> shoots = new ArrayList<>();
     Shoot shoot;
 
@@ -62,6 +64,10 @@ public class ScrollHandler extends Group {
         skulls.add(skull);
         addActor(skull);
 
+        // Creem el powerUp
+        power = new Power(Settings.GAME_WIDTH, r.nextInt(Settings.GAME_HEIGHT - Settings.POWER_HEIGHT), Settings.POWER_WIDTH, Settings.POWER_HEIGHT, Settings.POWER_VELOCITY);
+        addActor(power);
+
         // Definim una mida aleatòria entre el mínim i el màxim
         float newSize = Methods.randomFloat(Settings.MIN_ENEMY, Settings.MAX_ENEMY) * 34;
 
@@ -102,6 +108,11 @@ public class ScrollHandler extends Group {
             skull.reset(Settings.GAME_WIDTH);
         }
 
+        // Si el Power es troba fora de la pantalla, fem un reset de l'element
+        if (power.isLeftOfScreen()) {
+            power.reset(Settings.GAME_WIDTH);
+        }
+
         //Si un enemy es troba fora de la pantalla el tornem a construir
         for (int i = 0; i < enemys.size(); i++) {
 
@@ -136,6 +147,15 @@ public class ScrollHandler extends Group {
         return false;
     }
 
+    public boolean collidesPower(Character character) {
+        if (power.collides(character)) {
+            removePower(power);
+            return true;
+        }
+
+        return false;
+    }
+
     public boolean collidesEnemy() {
 
         // Comprovem les col·lisions entre cada shoot i el enemy
@@ -157,7 +177,12 @@ public class ScrollHandler extends Group {
     }
 
     public void removeSkull(Skull skull) {
-        skull.reset((Settings.GAME_WIDTH + 50) + Settings.SKULL_RESET); // Eliminar el enemigo del escenario
+        skull.reset((Settings.GAME_WIDTH + 50) + Settings.SKULL_RESET); // Eliminar el skull del escenario
+
+    }
+
+    public void removePower(Power power) {
+        power.reset((Settings.GAME_WIDTH + 50) + Settings.POWER_RESET); // Eliminar el power del escenario
 
     }
 
