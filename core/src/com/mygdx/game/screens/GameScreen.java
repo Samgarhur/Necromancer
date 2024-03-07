@@ -269,9 +269,10 @@ public class GameScreen implements Screen {
                         Long powerSound = AssetManager.Power.play();
                         AssetManager.Power.setVolume(powerSound, soundsVolume+20);
                     }
+                    character.power();
 
                 }
-                if (scrollHandler.collidesEnemy()) {
+                if (scrollHandler.collidesEnemy(character)) {
                     if (soundsEnabled) {
                         Long impactSound = AssetManager.ImpactShoot.play();
                         AssetManager.ImpactShoot.setVolume(impactSound, soundsVolume);

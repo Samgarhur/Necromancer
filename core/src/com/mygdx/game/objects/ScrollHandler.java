@@ -156,14 +156,16 @@ public class ScrollHandler extends Group {
         return false;
     }
 
-    public boolean collidesEnemy() {
+    public boolean collidesEnemy(Character character) {
 
         // Comprovem les col·lisions entre cada shoot i el enemy
         for (Shoot shoot : shoots) {
             for (Enemy enemy : enemys) {
                 if (shoot.collides(enemy)) {//Si colisiona el shoot amb el enemy
                     removeEnemy(enemy);//Esborrem el enemy
-                    removeShoot(shoot);
+                    if(!character.isPower) {
+                        removeShoot(shoot);
+                    }
                     return true;
                 }
             }
@@ -213,13 +215,25 @@ public class ScrollHandler extends Group {
 
     public void createShoot(Character character) {
         if (puedeDisparar()) {
-            tiempoUltimoDisparo = TimeUtils.nanoTime();
-            float characterX = character.getX() + character.getWidth() / 2;
-            float characterY = character.getY() + character.getHeight() / 2;
-            shoot = new Shoot(characterX, characterY - 40, Settings.SHOOT_WIDTH, Settings.SHOOT_HEIGHT, Settings.SHOOT_VELOCITY);
-            //Guardamos el disparo en una arralist para poder buscarlo despues para borrarlo
-            shoots.add(shoot);
-            addActor(shoot);
+            if(character.isPower) {
+                tiempoUltimoDisparo = TimeUtils.nanoTime();
+                float characterX = character.getX() + character.getWidth() / 2;
+                float characterY = character.getY() + character.getHeight() / 2;
+                shoot = new Shoot(characterX, characterY - 40, Settings.SHOOT_POWER_WIDTH, Settings.SHOOT_POWER_HEIGHT, Settings.SHOOT_VELOCITY);
+                //Guardamos el disparo en una arralist para poder buscarlo despues para borrarlo
+                shoots.add(shoot);
+                addActor(shoot);
+
+            }
+            else{
+                tiempoUltimoDisparo = TimeUtils.nanoTime();
+                float characterX = character.getX() + character.getWidth() / 2;
+                float characterY = character.getY() + character.getHeight() / 2;
+                shoot = new Shoot(characterX, characterY - 40, Settings.SHOOT_WIDTH, Settings.SHOOT_HEIGHT, Settings.SHOOT_VELOCITY);
+                //Guardamos el disparo en una arralist para poder buscarlo despues para borrarlo
+                shoots.add(shoot);
+                addActor(shoot);
+            }
         }
     }
 

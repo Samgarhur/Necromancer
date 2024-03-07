@@ -22,6 +22,7 @@ public class Character extends Actor {
     public boolean attackAnimation;
     public boolean isDead=false;
     public boolean isHurt=false;
+    public boolean isPower=false;
     TextureRegion currentFrame;
 
     // Paràmetres del character
@@ -178,14 +179,25 @@ public class Character extends Actor {
         if(!isHurt){
             this.isHurt=true;
             this.stateTime=0;
-
         }
+    }
 
+    public void power(){
+        if(!isPower){
+            this.isPower=true;
+            this.stateTime=0;
+        }
     }
     public Rectangle getCollisionRect() {
 
         return collisionRect;
     }
 
+    public boolean isPower() {
+        return isPower;
+    }
 
+    public void setPower(boolean power) {
+        isPower = power;
+    }
 }
