@@ -36,7 +36,6 @@ import java.util.ArrayList;
 public class GameScreen implements Screen {
     final Juego game;
 
-
     FileHandle fuente;
 
     private Stage stage;
@@ -66,6 +65,7 @@ public class GameScreen implements Screen {
     float soundsVolume = preferences.getSoundVolume();
     public int vidas = 3;
     public int puntuacion= 0;
+    public int mejorPuntuacion;
 
 
     public GameScreen(Juego game) {
@@ -77,8 +77,12 @@ public class GameScreen implements Screen {
             AssetManager.GameMusic.setVolume(musicVolume);
             AssetManager.GameMusic.play();
         }
-        ;
+
+        //Inizializamos la skin
         skin = new Skin(Gdx.files.internal("Skin/star-soldier-ui.json"));
+
+        //Inizializamos la mejor puntuacion
+        mejorPuntuacion=Gdx.app.getPreferences("data").getInteger("score");
 
         //Inicializamos la fuente para los textos
         fuente = AssetManager.fuente;
@@ -189,8 +193,12 @@ public class GameScreen implements Screen {
         BitmapFont fontScore = new BitmapFont(fuente, true);
         fontScore.getData().scale(1f);
 
+        //Asignamos la posicion del texto "BestScore"
+        float textBestScoreY = Settings.GAME_HEIGHT-50;
+
         batch.begin();
         fontScore.draw(batch, "Score: "+puntuacion, Settings.SCORE_STARTX, Settings.SCORE_STARTY);
+        fontScore.draw(batch, "Best Score: "+mejorPuntuacion, Settings.SCORE_STARTX, textBestScoreY);
         batch.end();
 
     }
@@ -264,7 +272,11 @@ public class GameScreen implements Screen {
             }
         } else {
 
-
+            //Si la puntuacion final es superior a la mejor puntuacion la guardamos en preferences
+            if(puntuacion>mejorPuntuacion) {
+                //Guardem la puntuacio final a les preferences de gdx
+                Gdx.app.getPreferences("data").putInteger("score", puntuacion).flush();
+            }
 
             // Obtener la fuente de texto de la skin
             BitmapFont font = new BitmapFont(fuente, true);
@@ -281,6 +293,7 @@ public class GameScreen implements Screen {
             //Asignamos la posicion del texto "Score"
             float textScoreX = gameOverX-50;
             float textScoreY = gameOverY+100;
+
 
             batch.begin();
             font.draw(batch, "Game Over", gameOverX, gameOverY);
